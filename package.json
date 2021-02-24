@@ -1,5 +1,5 @@
 {
-  "name": "kitchen-sink",
+  "name": "web3-starter",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,8 +8,34 @@
     "start": "next start"
   },
   "dependencies": {
+    "dotenv": "^8.2.0",
+    "ethers": "^5.0.31",
+    "ethers-multicall": "^0.1.6",
+    "isomorphic-fetch": "^3.0.0",
     "next": "10.0.7",
     "react": "17.0.1",
-    "react-dom": "17.0.1"
-  }
+    "react-dom": "17.0.1",
+    "styled-components": "^5.2.1",
+    "use-wallet": "^0.8.1"
+  },
+  "description": "This is a simple web3 starter with a clean layout",
+  "main": "index.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/l3wi/web3-starter.git"
+  },
+  "keywords": [
+    "web3",
+    "nextjs",
+    "styledComponents",
+    "ethers",
+    "useWallet"
+  ],
+  "author": "l3wi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/l3wi/web3-starter/issues"
+  },
+  "homepage": "https://github.com/l3wi/web3-starter#readme"
 }
