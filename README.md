@@ -1,6 +1,6 @@
 # Web3 Starter
 
-
+Simple web3 starter
 
 ## Get started:
 
@@ -22,7 +22,13 @@ The `pages/api` directory is mapped to `/api/*`. Files in this directory are tre
 
 ## Layout:
 
-
+- `components` - UI components 
+- `contexts` - App wide data contexts, comes with wallet management 
+- `contracts` - Contract presets for use in the
+- `hooks` - 
+- `pages` - Routing and base pages
+- `public` - static objects available at `/` 
+- `utils` - Small functions that help out
 
 ## Learn More
 
