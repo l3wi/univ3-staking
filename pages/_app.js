@@ -1,6 +1,7 @@
-import { createGlobalStyle, ThemeProvider } from 'styled-components'
+import { createGlobalStyle } from 'styled-components'
 import { Web3Provider } from '../contexts/useWeb3'
 import { useWallet, UseWalletProvider } from 'use-wallet'
+import { ChakraProvider } from '@chakra-ui/react'
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -21,13 +22,13 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <GlobalStyle />
-      <ThemeProvider theme={theme}>
+      <ChakraProvider>
         <UseWalletProvider chainId={1}>
           <Web3Provider>
             <Component {...pageProps} />
           </Web3Provider>
         </UseWalletProvider>
-      </ThemeProvider>
+      </ChakraProvider>
     </>
   )
 }

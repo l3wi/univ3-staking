@@ -1,3 +1,3 @@
-import usdc from './usdc'
+import usdcInfo from './usdc'
 
-export default { usdc }
+export const usdc = usdcInfo
