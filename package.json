@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.15",
@@ -25,7 +26,10 @@
   },
   "description": "This is a simple web3 starter with a clean layout",
   "main": "index.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-next": "^11.0.1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/l3wi/web3-starter.git"

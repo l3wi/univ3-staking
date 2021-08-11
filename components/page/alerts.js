@@ -17,7 +17,7 @@ import {
 
 import useAlerts from '../../contexts/useAlerts'
 
-const Alerts = () => {
+function Alerts() {
   const { alerts } = useAlerts()
   return (
     <Box
@@ -36,7 +36,7 @@ const Alerts = () => {
                 maxW="sm"
                 w="full"
                 mx="auto"
-                bg={useColorModeValue('white', 'gray.800')}
+                bg={'white'}
                 shadow="md"
                 rounded="lg"
                 overflow="hidden"
@@ -53,16 +53,10 @@ const Alerts = () => {
 
                 <Box mx={-3} py={2} px={4}>
                   <Box mx={3}>
-                    <chakra.span
-                      color={useColorModeValue('blue.500', 'blue.400')}
-                      fontWeight="bold"
-                    >
+                    <chakra.span color={'blue.500'} fontWeight="bold">
                       Info
                     </chakra.span>
-                    <chakra.p
-                      color={useColorModeValue('gray.600', 'gray.200')}
-                      fontSize="sm"
-                    >
+                    <chakra.p color={'gray.600'} fontSize="sm">
                       {item.text}
                     </chakra.p>
                   </Box>
@@ -76,7 +70,7 @@ const Alerts = () => {
                 maxW="sm"
                 w="full"
                 mx="auto"
-                bg={useColorModeValue('white', 'gray.800')}
+                bg={'white'}
                 shadow="md"
                 rounded="lg"
                 overflow="hidden"
@@ -93,16 +87,10 @@ const Alerts = () => {
 
                 <Box mx={-3} py={2} px={4}>
                   <Box mx={3}>
-                    <chakra.span
-                      color={useColorModeValue('green.500', 'green.400')}
-                      fontWeight="bold"
-                    >
+                    <chakra.span color={'green.500'} fontWeight="bold">
                       Success
                     </chakra.span>
-                    <chakra.p
-                      color={useColorModeValue('gray.600', 'gray.200')}
-                      fontSize="sm"
-                    >
+                    <chakra.p color={'gray.600'} fontSize="sm">
                       {item.text}!
                     </chakra.p>
                   </Box>
@@ -116,7 +104,7 @@ const Alerts = () => {
                 maxW="sm"
                 w="full"
                 mx="auto"
-                bg={useColorModeValue('white', 'gray.800')}
+                bg={'white'}
                 shadow="md"
                 rounded="lg"
                 overflow="hidden"
@@ -133,16 +121,10 @@ const Alerts = () => {
 
                 <Box mx={-3} py={2} px={4}>
                   <Box mx={3}>
-                    <chakra.span
-                      color={useColorModeValue('red.500', 'red.400')}
-                      fontWeight="bold"
-                    >
+                    <chakra.span color={'red.500'} fontWeight="bold">
                       Error
                     </chakra.span>
-                    <chakra.p
-                      color={useColorModeValue('gray.600', 'gray.200')}
-                      fontSize="sm"
-                    >
+                    <chakra.p color={'gray.600'} fontSize="sm">
                       {item.text}!
                     </chakra.p>
                   </Box>
