@@ -1,6 +1,7 @@
 import { Box, Flex } from '@chakra-ui/layout'
 import Footer from './footer'
 import Header from './header'
+import Alerts from './alerts'
 import React from 'react'
 import { useColorModeValue } from '@chakra-ui/color-mode'
 
@@ -14,6 +15,7 @@ const Layout = ({ children }) => {
       backgroundColor={bgColor}
       px={[4, 4, 12]}
     >
+      <Alerts />
       <Header />
       <Box flexGrow={1}>{children}</Box>
       <Footer />
