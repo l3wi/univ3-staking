@@ -1,34 +1,39 @@
-import { createGlobalStyle } from 'styled-components'
 import { Web3Provider } from '../contexts/useWeb3'
 import { useWallet, UseWalletProvider } from 'use-wallet'
-import { ChakraProvider } from '@chakra-ui/react'
 
-const GlobalStyle = createGlobalStyle`
-  body {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Helvetica", sans-serif, monospace;
-  }
-`
+import { ChakraProvider, CSSReset, extendTheme } from '@chakra-ui/react'
 
 const theme = {
-  colors: {
-    primary: '#0070f3',
+  styles: {
+    global: {
+      'html, body': {
+        minHeight: '100vh',
+        fontSize: 'sm',
+        color: 'gray.600',
+        lineHeight: 'tall',
+      },
+      a: {
+        color: 'teal.500',
+      },
+    },
   },
 }
 
 export default function App({ Component, pageProps }) {
   return (
-    <>
-      <GlobalStyle />
-      <ChakraProvider>
-        <UseWalletProvider chainId={1}>
+    <ChakraProvider theme={extendTheme({ theme })}>
+      <CSSReset />
+      <UseWalletProvider
+        chainId={process.env.CHAIN_ID}
+        connectors={{
+          walletconnect: { rpcUrl: 'https://mainnet.eth.aragon.network/' },
+          walletlink: { url: 'https://mainnet.eth.aragon.network/' },
+        }}
+      >
           <Web3Provider>
             <Component {...pageProps} />
           </Web3Provider>
-        </UseWalletProvider>
-      </ChakraProvider>
-    </>
+      </UseWalletProvider>
+    </ChakraProvider>
   )
 }
