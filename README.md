@@ -1,6 +1,6 @@
 # Web3 Starter
 
-Simple web3 starter
+Simple web3 starter based on Next.js & Chakra-UI w/ UseWallet for Web3 support
 
 ## Get started:
 
@@ -22,17 +22,17 @@ The `pages/api` directory is mapped to `/api/*`. Files in this directory are tre
 
 ## Layout:
 
-- `components` - UI components 
-- `contexts` - App wide data contexts, comes with wallet management 
-- `contracts` - Contract presets for use in the
-- `hooks` - 
+- `components` - UI components
+- `contexts` - App wide data contexts: wallet, alerts etc.
+- `contracts` - Contract ABIs and addresses
+- `hooks` - Various hooks
 - `pages` - Routing and base pages
-- `public` - static objects available at `/` 
-- `utils` - Small functions that help out
+- `public` - Static objects
+- `utils` - Small functions
 
 ## Learn More
 
-To learn more about the underlying framework:  Next.js, take a look at the following resources:
+To learn more about the underlying framework: Next.js, take a look at the following resources:
 
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
