@@ -12,7 +12,6 @@ import {
 import { Box, Heading, Text, Center, Link } from '@chakra-ui/layout'
 import { Alert } from '@chakra-ui/alert'
 import { Button, IconButton } from '@chakra-ui/button'
-
 import { useColorModeValue } from '@chakra-ui/color-mode'
 
 import Head from 'next/head'
@@ -21,6 +20,7 @@ import { useWeb3 } from '../contexts/useWeb3'
 
 import useCurrentBlock from '../hooks/useCurrentBlock'
 import useContractBalance from '../hooks/useContractBalance'
+import { comma } from '../utils/helpers'
 
 import { usdc } from '../contracts'
 
