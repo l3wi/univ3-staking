@@ -148,7 +148,7 @@ const CancelButton = ({
 const Metamask = ({ height = 33 }) => {
   return (
     <svg fill="none" height={height} width={height} viewBox="0 0 35 33">
-      <g stroke-linecap="round" stroke-linejoin="round" stroke-width=".25">
+      <g strokeLinecap="round" strokeLinejoin="round" strokeWidth=".25">
         <path
           d="m32.9582 1-13.1341 9.7183 2.4424-5.72731z"
           fill="#e17726"
@@ -276,13 +276,10 @@ const Metamask = ({ height = 33 }) => {
 const WalletConnect = ({ height = 33 }) => {
   return (
     <svg width={height} height={height} viewBox="0 0 300 185" version="1.1">
-      <title>WalletConnect</title>
-      <desc>Created with Sketch.</desc>
-      <defs></defs>
       <g
         id="Page-1"
         stroke="none"
-        stroke-width="1"
+        strokeWidth="1"
         fill="none"
         fillRule="evenodd"
       >
