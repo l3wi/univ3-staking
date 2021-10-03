@@ -7,14 +7,13 @@ import {
   StatArrow,
   StatGroup,
   Divider,
-  Flex,
+  Flex
 } from '@chakra-ui/react'
 import { Box, Heading, Text, Center, Link } from '@chakra-ui/layout'
 import { Alert } from '@chakra-ui/alert'
 import { Button, IconButton } from '@chakra-ui/button'
 import { useColorModeValue } from '@chakra-ui/color-mode'
 
-import Head from 'next/head'
 import Page from '../components/page'
 import { useWeb3 } from '../contexts/useWeb3'
 
@@ -33,10 +32,6 @@ export default function Home() {
   const usdcBalance = useContractBalance(usdc.address, 6)
   return (
     <Page>
-      <Head>
-        <title>Web3 Kitchen Sink</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
       <Box textAlign="center" mt={[8, 16, 24]}>
         <Heading size="lg" mb={2}>
           Web3 Kitchen Sink
