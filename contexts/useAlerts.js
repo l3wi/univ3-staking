@@ -4,7 +4,7 @@ import React, {
   useContext,
   useMemo,
   useEffect,
-  useCallback,
+  useCallback
 } from 'react'
 
 import { web3 } from '../utils/ethers'
@@ -35,17 +35,19 @@ export const AlertProvider = (props) => {
   // watchTx - listen for success/fail
   const watchTx = (hash, actionName) => {
     const id = addAlert('pending', actionName)
-    web3.once(hash, (transaction) => {
-      console.log(transaction)
-
-      if (transaction.status === 1) {
-        addAlert('success', actionName)
-      } else {
-        addAlert('fail', actionName)
-      }
-      setTimeout(() => {
-        removeAlert(id)
-      }, 3000)
+    return new Promise((resolve, reject) => {
+      web3.once(hash, (transaction) => {
+        setTimeout(() => {
+          removeAlert(id)
+        }, 3000)
+        if (transaction.status === 1) {
+          addAlert('success', actionName)
+          resolve(transaction)
+        } else {
+          addAlert('fail', actionName)
+          reject(transaction)
+        }
+      })
     })
   }
 
@@ -54,7 +56,7 @@ export const AlertProvider = (props) => {
       alerts,
       addAlert,
       removeAlert,
-      watchTx,
+      watchTx
     }),
     [alerts]
   )
@@ -63,7 +65,7 @@ export const AlertProvider = (props) => {
   return (
     <UseAlertContext.Provider
       value={{
-        tools,
+        tools
       }}
     >
       {props.children}

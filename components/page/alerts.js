@@ -6,13 +6,13 @@ import {
   Link,
   Icon,
   useColorModeValue,
-  chakra,
+  chakra
 } from '@chakra-ui/react'
 import {
   CheckCircleIcon,
   WarningTwoIcon,
   TimeIcon,
-  IoMdCheckmarkCircle,
+  IoMdCheckmarkCircle
 } from '@chakra-ui/icons'
 
 import useAlerts from '../../contexts/useAlerts'
@@ -41,6 +41,7 @@ function Alerts() {
                 rounded="lg"
                 overflow="hidden"
                 mt="10px"
+                key={item.text}
               >
                 <Flex
                   justifyContent="center"
@@ -75,6 +76,7 @@ function Alerts() {
                 rounded="lg"
                 overflow="hidden"
                 mt="10px"
+                key={item.text}
               >
                 <Flex
                   justifyContent="center"
@@ -109,6 +111,7 @@ function Alerts() {
                 rounded="lg"
                 overflow="hidden"
                 mt="10px"
+                key={item.text}
               >
                 <Flex
                   justifyContent="center"
