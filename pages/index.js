@@ -3,6 +3,7 @@ import {
   Stat,
   StatLabel,
   StatNumber,
+  StatHelpText,
   Flex,
   Table,
   Thead,
@@ -29,64 +30,73 @@ import {
   depositNFT,
   stakeNFT,
   claimReward,
-  exitPool
+  exitPool,
+  getPoolData
 } from '../utils/pools'
-import useCurrentBlock from '../hooks/useCurrentBlock'
+
 import { comma } from '../utils/helpers'
 
-const dsu = [
+// ESS TESTING
+const IncentiveKey = [
   '0x24aE124c4CC33D6791F8E8B63520ed7107ac8b3e',
-  '0x3432ef874A39BB3013e4d574017e0cCC6F937efD',
+  '0xd2Ef54450ec52347bde3dab7B086bf2a005601d8',
   1630272524,
   1638048524,
   '0xD05aCe63789cCb35B9cE71d01e4d632a0486Da4B'
 ]
 
-const program = [
-  '0x6123B0049F904d730dB3C36a31167D9d4121fA6B',
-  '0x94981F69F7483AF3ae218CbfE65233cC3c60d93a',
-  1633564800,
-  1638748800,
-  '0xDAEada3d210D2f45874724BeEa03C7d4BBD41674'
-]
+// // RBN PROGRAM
+// const IncentiveKey = [
+//   '0x6123B0049F904d730dB3C36a31167D9d4121fA6B',
+//   '0x94981F69F7483AF3ae218CbfE65233cC3c60d93a',
+//   1633564800,
+//   1638748800,
+//   '0xDAEada3d210D2f45874724BeEa03C7d4BBD41674'
+// ]
+
+const programEmissions = 4000000
+// const programEmissions = 10000000
+const secondsInAYear = 31540000
 
 export default function Home() {
-  const cardBgColor = useColorModeValue('white', 'gray.700')
-
   const { account, block } = useWeb3()
-  const { watchTx, alerts } = useAlerts()
-
+  const { watchTx } = useAlerts()
   const [positions, setPositions] = useState([])
+  const [pool, setPool] = useState({})
+  const cardBgColor = useColorModeValue('white', 'gray.700')
 
   const deposit = async (id) => {
     const tx = await depositNFT(id, account)
     watchTx(tx.hash, 'Depositing NFT')
   }
   const stake = async (id) => {
-    const tx = await stakeNFT(id)
+    const tx = await stakeNFT(id, IncentiveKey)
     watchTx(tx.hash, 'Staking NFT')
   }
   const claim = async (id, reward) => {
-    const tx = await claimReward(id, account, reward)
+    const tx = await claimReward(id, account, reward, IncentiveKey)
     watchTx(tx.hash, 'Claiming rewards')
   }
 
   const exit = async (id, reward) => {
-    const tx = await exitPool(id, account, reward)
+    const tx = await exitPool(id, account, reward, IncentiveKey)
     watchTx(tx.hash, 'Exiting pool & claiming rewards')
   }
 
   useEffect(async () => {
     if (account) {
-      const lpPositions = await findNFTByPool(
-        account,
-        '0x3432ef874a39bb3013e4d574017e0ccc6f937efd'
-      )
+      /// Calculate APY
+      const data = await getPoolData(IncentiveKey[1], IncentiveKey[0])
+      const emissionsPerSecond =
+        programEmissions / (IncentiveKey[3] - IncentiveKey[2])
+      const apy =
+        ((emissionsPerSecond * data.token * secondsInAYear) / data.tvl) * 100
+      setPool({ ...data, apy })
 
+      const lpPositions = await findNFTByPool(account, IncentiveKey)
       setPositions(lpPositions)
-      console.log(lpPositions)
     }
-  }, [account, alerts, block])
+  }, [account, block])
 
   return (
     <Page title="RBN/ETH">
@@ -101,28 +111,28 @@ export default function Home() {
           <Flex w="100%" maxW={['100%', 800]} mb={8}>
             <Stat>
               <StatLabel>Staking APR</StatLabel>
-              <StatNumber>{`45%`}</StatNumber>
+              <StatNumber>{`${commas(pool.apy)}%`}</StatNumber>
             </Stat>
             <Stat>
               <StatLabel>Pool TVL</StatLabel>
-              <StatNumber>{`$2,293,091`}</StatNumber>
+              <StatNumber>{`$${commas(pool.tvl)}`}</StatNumber>
             </Stat>
             <Stat>
               <StatLabel>Claimable Rewards</StatLabel>
               <StatNumber>
-                {positions[0] &&
-                  commas(
-                    positions
-                      .map((i) => (i.reward ? i.reward / 1e18 : 0))
-                      .reduce((a, b) => a + b)
-                  )}
-                {` RBN`}
+                {positions[0]
+                  ? `${commas(
+                      positions
+                        .map((i) => (i.reward ? i.reward / 1e18 : 0))
+                        .reduce((a, b) => a + b)
+                    )} ${pool.symbol}`
+                  : '0.0'}
               </StatNumber>
             </Stat>
           </Flex>
 
           <Heading size="md" mb="5">
-            Your RBN/ETH positions
+            {`Your ${pool.symbol ? pool.symbol : '???'}/ETH positions`}
           </Heading>
           <Box
             shadow="xl"
@@ -171,7 +181,10 @@ export default function Home() {
                         ) : null}
                       </Td>
 
-                      <Td isNumeric>{commas(position.reward / 1e18)} RBN</Td>
+                      <Td isNumeric>
+                        {commas(position.reward / 1e18)}{' '}
+                        {pool.symbol ? pool.symbol : '???'}
+                      </Td>
                       <Td isNumeric>
                         <Flex>
                           {!position.deposited && (
