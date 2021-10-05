@@ -31,30 +31,33 @@ const Footer = () => {
             staker.projects.sh
           </Text>
           <Text fontSize="sm" color="gray.500">
-            A simple UI for Ribbon (RBN) staking
+            A simple UI for Uniswap V3 staking programs
           </Text>
         </Box>
         <Box>
           <HStack spacing={4}>
-            <Link
-              py={1}
-              isExternal
-              href="https://etherscan.io/blocks"
-              fontSize="sm"
-              display="ruby"
-              _hover={{
-                color: 'orange.600'
-              }}
-            >
-              <chakra.span
-                display="block"
-                h="10px"
-                w="10px"
-                bg="green.600"
-                rounded="full"
-              />{' '}
-              {block}
-            </Link>
+            {block != 0 && (
+              <Link
+                py={1}
+                isExternal
+                href="https://etherscan.io/blocks"
+                fontSize="sm"
+                display="ruby"
+                _hover={{
+                  color: 'orange.600'
+                }}
+              >
+                <chakra.span
+                  display="block"
+                  h="10px"
+                  w="10px"
+                  bg="green.600"
+                  rounded="full"
+                />{' '}
+                {block}
+              </Link>
+            )}
+
             {links.map(({ href, isExternal, label }) => (
               <Link
                 py={1}
