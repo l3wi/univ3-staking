@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect } from 'react'
 import {
   Modal,
   ModalOverlay,
@@ -13,8 +13,8 @@ import {
   Heading,
   useDisclosure,
   Button
-} from "@chakra-ui/react"
-import { useWeb3 } from "../../contexts/useWeb3"
+} from '@chakra-ui/react'
+import { useWeb3 } from '../../contexts/useWeb3'
 
 export default function WalletModal() {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -35,20 +35,20 @@ export default function WalletModal() {
         borderRadius="lg"
       >
         <Text fontSize="sm" color="white.100">
-          {account ? `` : "Connect Wallet"}
+          {account ? `` : 'Connect Wallet'}
         </Text>
         {account && (
           <>
             <Text fontSize="sm" m={0}>
               {account.substring(0, 6) +
-                "..." +
+                '...' +
                 account.substring(account.length - 4)}
             </Text>
           </>
         )}
         {account && (
           <CancelButton
-            margin={{ marginLeft: "8px" }}
+            margin={{ marginLeft: '8px' }}
             width="14px"
             height="14px"
             handleClick={() => disconnectWallet()}
@@ -68,15 +68,15 @@ export default function WalletModal() {
           <ModalCloseButton />
           <ModalBody
             display="flex"
-            flexDirection={{ base: "column", md: "row" }}
+            flexDirection={{ base: 'column', md: 'row' }}
           >
-            <WalletButton func={() => connectWallet("injected")}>
+            <WalletButton func={() => connectWallet('injected')}>
               <Metamask height="120px" />
               <Heading mt="2" size="md">
                 Metamask
               </Heading>
             </WalletButton>
-            <WalletButton func={() => connectWallet("walletconnect")}>
+            <WalletButton func={() => connectWallet('walletconnect')}>
               <WalletConnect height="120px" pr="5px" />
               <Heading whiteSpace="nowrap" size="md">
                 Wallet Connect
@@ -94,7 +94,7 @@ const WalletButton = ({ children, func }) => {
     <Flex
       m="4"
       p="5"
-      borderRadius={"20px"}
+      borderRadius={'20px'}
       variant="outline"
       w="220px"
       cursor="pointer"
@@ -102,7 +102,7 @@ const WalletButton = ({ children, func }) => {
       textAlign="center"
       alignItems="center"
       justifyContent="center"
-      _hover={{ bg: "gray.100" }}
+      _hover={{ bg: 'gray.100' }}
       onClick={() => func()}
     >
       {children}
@@ -111,25 +111,25 @@ const WalletButton = ({ children, func }) => {
 }
 
 const CancelButton = ({
-  fill = "#fff",
-  width = "16px",
-  height = "16px",
+  fill = '#fff',
+  width = '16px',
+  height = '16px',
   margin = {},
   handleClick
 }) => (
   <div
     onClick={handleClick}
     style={{
-      border: "none",
-      outline: "none",
+      border: 'none',
+      outline: 'none',
       ...(Object.keys(margin).length && { ...margin })
     }}
     className="reset"
   >
     <svg
       style={{
-        cursor: "pointerEvent",
-        pointerEvents: "none"
+        cursor: 'pointerEvent',
+        pointerEvents: 'none'
       }}
       width={width}
       height={height}
