@@ -24,10 +24,10 @@ const Layout = ({ children, title }) => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:creator" content="@lewifree" />
         <meta property="og:url" content="https://staker.projects.sh" />
-        <meta property="og:title" content="Ribbon Finance (RBN) staker" />
+        <meta property="og:title" content="Ribbon (RBN) staker" />
         <meta
           property="og:description"
-          content="An unofficial staking UI for the Ribbon reward program."
+          content="A staking UI for the Ribbon reward program."
         />
         <meta
           property="og:image"
