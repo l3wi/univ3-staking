@@ -11,13 +11,7 @@ import { commas } from '../utils/helpers'
 import { ethers } from 'ethers'
 import { web3 } from '../utils/ethers'
 
-const dsu = [
-  '0x24aE124c4CC33D6791F8E8B63520ed7107ac8b3e',
-  '0x3432ef874A39BB3013e4d574017e0cCC6F937efD',
-  1630272524,
-  1638048524,
-  '0xD05aCe63789cCb35B9cE71d01e4d632a0486Da4B'
-]
+import univ3prices from '@thanpolas/univ3prices'
 
 // Find a matching incentive program.
 // export const findIncentiveProgram = async (address) => {
@@ -57,33 +51,37 @@ export const stakeNFT = async (tokenId, program) => {
   const signer = web3.getSigner()
   const staking = new ethers.Contract(v3Staker.address, v3Staker.abi, signer)
 
-  const tx = await staking.stakeToken(dsu, tokenId)
+  const tx = await staking.stakeToken(program, tokenId)
   return tx
 }
 
 // Fetch users claimable rewards
-export const claimReward = async (tokenId, address, amount) => {
+export const claimReward = async (tokenId, address, amount, program) => {
   let iface = new ethers.utils.Interface(v3Staker.abi)
-  const unstakeData = iface.encodeFunctionData('unstakeToken', [dsu, tokenId])
+  const unstakeData = iface.encodeFunctionData('unstakeToken', [
+    program,
+    tokenId
+  ])
   const claimData = iface.encodeFunctionData('claimReward', [
     '0x24ae124c4cc33d6791f8e8b63520ed7107ac8b3e',
     address,
     amount
   ])
-  const stakeData = iface.encodeFunctionData('stakeToken', [dsu, tokenId])
-  console.log(unstakeData)
+  const stakeData = iface.encodeFunctionData('stakeToken', [program, tokenId])
 
   const signer = web3.getSigner()
   const staking = new ethers.Contract(v3Staker.address, v3Staker.abi, signer)
-
   const tx = await staking.multicall([unstakeData, claimData, stakeData])
   return tx
 }
 
 // Unstake, Claim & Exit
-export const exitPool = async (tokenId, address, amount) => {
+export const exitPool = async (tokenId, address, amount, program) => {
   let iface = new ethers.utils.Interface(v3Staker.abi)
-  const unstakeData = iface.encodeFunctionData('unstakeToken', [dsu, tokenId])
+  const unstakeData = iface.encodeFunctionData('unstakeToken', [
+    program,
+    tokenId
+  ])
   const claimData = iface.encodeFunctionData('claimReward', [
     '0x24ae124c4cc33d6791f8e8b63520ed7107ac8b3e',
     address,
@@ -97,32 +95,33 @@ export const exitPool = async (tokenId, address, amount) => {
 
   const signer = web3.getSigner()
   const staking = new ethers.Contract(v3Staker.address, v3Staker.abi, signer)
-
   const tx = await staking.multicall([unstakeData, claimData, withdrawData])
   return tx
 }
 
 // Find users NFTs in pools
 // Uses Promise.all rather than Multicall. Need to be optimised
-export const findNFTByPool = async (address, poolAddress) => {
+export const findNFTByPool = async (address, program) => {
+  // Get pool tokens
+  const pool = new ethers.Contract(program[1], v3Pool.abi, web3)
+  const a = await pool.token0()
+  const b = await pool.token1()
+
   const v3Manger = new ethers.Contract(
     v3Positions.address,
     v3Positions.abi,
     web3
   )
   const staking = new ethers.Contract(v3Staker.address, v3Staker.abi, web3)
-  const pool = new ethers.Contract(poolAddress, v3Pool.abi, web3)
   const batcher = new ethers.Contract(BATCHER.address, BATCHER.abi, web3)
 
-  // Get pool tokens
-  const a = await pool.token0()
-  const b = await pool.token1()
-
-  // Fetch all UNI V3 NFTs owned by the address
+  // Fetch all UNI V3 NFTs owned by the Staker
   let nftList = []
-  const nfts = await batcher.getIds(v3Positions.address, address) // REALLY HACKY
+
+  const nfts = await batcher.getIds(v3Positions.address, address) // User's NFTS
   nfts.map((id) => nftList.push({ id: id.toNumber(), address }))
-  const stakerNfts = await batcher.getIds(v3Positions.address, v3Staker.address)
+
+  const stakerNfts = await batcher.getIds(v3Positions.address, v3Staker.address) //ALL NFTS in STAKER REALLY HACKY
   stakerNfts.map((id) =>
     nftList.push({ id: id.toNumber(), address: v3Staker.address })
   )
@@ -139,7 +138,7 @@ export const findNFTByPool = async (address, poolAddress) => {
     let staked = false
     let reward = null
     try {
-      const [rewardNumber] = await staking.getRewardInfo(dsu, id)
+      const [rewardNumber] = await staking.getRewardInfo(program, id)
       reward = rewardNumber.toString()
       staked = true
     } catch {}
@@ -159,34 +158,40 @@ export const findNFTByPool = async (address, poolAddress) => {
   return positions.filter((item) => item)
 }
 
-export const getWETHPrice = async () => {
-  const usdcContract = new ethers.Contract(
-    '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', // USDC
-    ERC20.abi,
-    web3
-  )
-  const wethContract = new ethers.Contract(
-    '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', // WETH
-    ERC20.abi,
-    web3
-  )
+// Fetches TVL of a XXX/ETH pool and returns prices
+export const getPoolData = async (pool, token) => {
+  const weth = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
 
-  const dollarBal = ethers.utils.formatUnits(
-    await usdcContract.balanceOf('0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc', {
-      // USDC/WETH POOl
-      gasLimit: 100000
-    }),
-    6
-  )
-  const wethBal = ethers.utils.formatUnits(
-    await wethContract.balanceOf('0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc', {
-      // USDC/WETH POOl
-      gasLimit: 100000
-    }),
+  const wethPrice = await getWETHPrice()
+  const poolContract = new ethers.Contract(pool, v3Pool.abi, web3)
+
+  const token0 = await poolContract.token0()
+  const data = await poolContract.slot0()
+  const ratio = univ3prices([18, 18], data.sqrtPriceX96).toAuto()
+
+  const tokenPrice = token0 === weth ? wethPrice * ratio : wethPrice / ratio
+
+  const wethContract = new ethers.Contract(weth, ERC20.abi, web3)
+  const wethBalance = ethers.utils.formatUnits(
+    await wethContract.balanceOf(pool),
     18
   )
 
-  const wethPrice = parseInt(dollarBal) / parseInt(wethBal)
-  console.log('WETH Price', wethPrice)
-  return wethPrice
+  const tokenContract = new ethers.Contract(token, ERC20.abi, web3)
+  const symbol = await tokenContract.symbol()
+  const tokenBalance = ethers.utils.formatUnits(
+    await tokenContract.balanceOf(pool),
+    18
+  )
+
+  const tvl = tokenBalance * tokenPrice + wethPrice * wethBalance
+  return { token: tokenPrice, symbol, weth: wethPrice, tvl }
+}
+
+export const getWETHPrice = async () => {
+  const weth_usdc = '0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640'
+  const poolContract = new ethers.Contract(weth_usdc, v3Pool.abi, web3)
+  const data = await poolContract.slot0()
+  const ratio = univ3prices([6, 18], data.sqrtPriceX96).toAuto() // [] token decimals
+  return ratio
 }
