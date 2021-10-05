@@ -19,15 +19,6 @@ export const ETH_USDC = {
   address: '0x8ad599c3a0ff1de082011efddc58f1908eb6e6d8'
 }
 
-export const DSU_USDC = {
-  abi: v3PoolABI,
-  address: '0x3432ef874a39bb3013e4d574017e0ccc6f937efd'
-}
-
-export const RIBBON = {
-  address: '0x6123b0049f904d730db3c36a31167d9d4121fa6b'
-}
-
 export const BATCHER = {
   abi: batcherABI,
   address: '0xF83eEE39E723526605d784917b6e38ebCF0f0207'
