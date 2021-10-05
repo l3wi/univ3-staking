@@ -18,7 +18,7 @@ const Layout = ({ children, title }) => {
       px={[4, 4, 12]}
     >
       <Head>
-        <title>{title ? title + ` - Staker` : `Staker`}</title>
+        <title>{title ? title + ` - UniV3 Staker` : `UniV3 Staker`}</title>
         <link rel="icon" href="/favicon.png" />
 
         <meta name="twitter:card" content="summary_large_image" />
