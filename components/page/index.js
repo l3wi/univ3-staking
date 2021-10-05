@@ -18,18 +18,21 @@ const Layout = ({ children, title }) => {
       px={[4, 4, 12]}
     >
       <Head>
-        <title>{title ? title + `- page title` : `page title`}</title>
+        <title>{title ? title + ` - Staker` : `Staker`}</title>
         <link rel="icon" href="/favicon.png" />
-        {/* 
+
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:creator" content="@lewifree" />
-        <meta property="og:url" content="https://url.com" />
-        <meta property="og:title" content="Project Name" />
-        <meta property="og:description" content="A simple starter for web3." />
+        <meta property="og:url" content="https://staker.projects.sh" />
+        <meta property="og:title" content="Ribbon Finance (RBN) staker" />
+        <meta
+          property="og:description"
+          content="An unofficial staking UI for the Ribbon reward program."
+        />
         <meta
           property="og:image"
-          content="https://url.com"
-        /> */}
+          content="https://staker.projects.sh/image.png"
+        />
       </Head>
       <Alerts />
       <Header />

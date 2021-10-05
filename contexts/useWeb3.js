@@ -4,7 +4,7 @@ import React, {
   useContext,
   useMemo,
   useEffect,
-  useCallback,
+  useCallback
 } from 'react'
 
 import { useWallet } from 'use-wallet'
@@ -20,6 +20,7 @@ export const Web3Provider = (props) => {
   const { account, connect, status, ethereum, reset, balance } = useWallet()
   // Remember provider preference
   const [provider, setProvider] = useLocalStorage('provider', false)
+  const [block, setBlock] = useState(0)
 
   // Connect/Disconnect Wallet
   const connectWallet = async (key) => {
@@ -41,6 +42,25 @@ export const Web3Provider = (props) => {
     }
   }
 
+  // Setup a block fetcher
+  const getBlock = async () => {
+    const currentBlock = block
+    const newBlock = await web3.getBlock()
+    if (newBlock.number != currentBlock) {
+      await setBlock(newBlock.number)
+    }
+  }
+  var blockTimer
+  const startTimer = (interval) => {
+    blockTimer = setInterval(
+      () => {
+        getBlock()
+      },
+      interval ? interval : 13000
+    )
+    getBlock()
+  }
+
   // Once we've connected a wallet, switch to wallet provider
   useEffect(async () => {
     if (status === 'connected') {
@@ -49,6 +69,9 @@ export const Web3Provider = (props) => {
       if (!account) {
         initProvider()
       }
+      if (!blockTimer) startTimer()
+    } else if (status === 'disconnected') {
+      clearInterval(blockTimer)
     }
   }, [status])
 
@@ -70,15 +93,16 @@ export const Web3Provider = (props) => {
       web3,
       balance: ethBalance,
       ethereum,
+      block
     }),
-    [web3, provider, account, status, balance]
+    [web3, provider, account, status, balance, block]
   )
 
   // pass the value in provider and return
   return (
     <UseWeb3Context.Provider
       value={{
-        tools,
+        tools
       }}
     >
       {props.children}

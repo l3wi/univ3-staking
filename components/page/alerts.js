@@ -55,7 +55,7 @@ function Alerts() {
                 <Box mx={-3} py={2} px={4}>
                   <Box mx={3}>
                     <chakra.span color={'blue.500'} fontWeight="bold">
-                      Info
+                      Pending
                     </chakra.span>
                     <chakra.p color={'gray.600'} fontSize="sm">
                       {item.text}

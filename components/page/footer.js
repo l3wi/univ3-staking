@@ -1,30 +1,22 @@
-import { Box, Flex, HStack, Link, Text } from '@chakra-ui/layout'
+import { Box, Flex, HStack, Link, Text, chakra } from '@chakra-ui/react'
 import React from 'react'
+import useWeb3 from '../../contexts/useWeb3'
 
 const links = [
   {
-    label: 'Code',
-    href: '#',
-    isExternal: true,
+    label: 'github',
+    href: 'https://github.com/l3wi/univ3-staking',
+    isExternal: true
   },
   {
-    label: 'Discord',
-    href: '#',
-    isExternal: true,
-  },
-  {
-    label: 'FAQ',
-    href: '#',
-    isExternal: true,
-  },
-  {
-    label: 'Governance',
-    href: '#',
-    isExternal: true,
-  },
+    label: 'lewi',
+    href: 'https://twitter.com/lewifree',
+    isExternal: true
+  }
 ]
 
 const Footer = () => {
+  const { block } = useWeb3()
   return (
     <Box as="footer">
       <Flex
@@ -36,14 +28,33 @@ const Footer = () => {
       >
         <Box textAlign={['center', 'center', 'initial']}>
           <Text fontWeight="bold" fontSize="md">
-            kitchen.sink
+            staker.projects.sh
           </Text>
           <Text fontSize="sm" color="gray.500">
-            A NextJS Web3 Starter Repo
+            A simple UI for Ribbon (RBN) staking
           </Text>
         </Box>
         <Box>
           <HStack spacing={4}>
+            <Link
+              py={1}
+              isExternal
+              href="https://etherscan.io/blocks"
+              fontSize="sm"
+              display="ruby"
+              _hover={{
+                color: 'orange.600'
+              }}
+            >
+              <chakra.span
+                display="block"
+                h="10px"
+                w="10px"
+                bg="green.600"
+                rounded="full"
+              />{' '}
+              {block}
+            </Link>
             {links.map(({ href, isExternal, label }) => (
               <Link
                 py={1}
@@ -53,15 +64,16 @@ const Footer = () => {
                 isExternal={isExternal}
                 rel="noopener noreferrer"
                 _hover={{
-                  color: 'green.300',
-                  borderBottomColor: 'green.300',
-                  borderBottomWidth: 1,
+                  color: 'orange.600'
                 }}
               >
                 {label}
               </Link>
             ))}
           </HStack>
+          {/* <Text fontSize="xs" color="gray.500">
+            
+          </Text> */}
         </Box>
       </Flex>
     </Box>

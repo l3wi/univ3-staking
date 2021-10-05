@@ -1,8 +1,13 @@
-import { ethers } from "ethers"
+import { ethers } from 'ethers'
 // Set provider for pre-render operations where no wallet is present.
 // let provider = new ethers.providers.JsonRpcProvider(atob(ETH_NODE))
+// export let web3 = new ethers.providers.getDefaultProvider()
+
+export const chainID = process.env.CHAIN_ID ? process.env.CHAIN_ID : 1
+console.log('Chain ID: ', chainID)
+
 export let web3 = new ethers.providers.InfuraProvider(
-  "homestead",
+  chainID === 1 ? 'homestead' : 'rinkeby',
   process.env.INFURA
 )
 
@@ -11,17 +16,17 @@ export const zeroAddress = ethers.constants.AddressZero
 
 export const registerProvider = (wallet) => {
   if (wallet) {
-    console.log("Using Wallet provider")
+    console.log('Using Wallet provider')
     try {
       web3 = new ethers.providers.Web3Provider(wallet)
-      wallet.on("chainChanged", (_chainId) => window.location.reload())
+      wallet.on('chainChanged', (_chainId) => window.location.reload())
     } catch (error) {
       console.log(error)
     }
   } else if (window && window.ethereum) {
-    console.log("Using Window provider")
+    console.log('Using Window provider')
     web3 = new ethers.providers.Web3Provider(window.ethereum)
-    window.ethereum.on("chainChanged", (_chainId) => window.location.reload())
+    window.ethereum.on('chainChanged', (_chainId) => window.location.reload())
   }
 }
 
@@ -34,24 +39,24 @@ export const setApproval = async (contract, spender, amount) => {
         constant: false,
         inputs: [
           {
-            name: "_spender",
-            type: "address"
+            name: '_spender',
+            type: 'address'
           },
           {
-            name: "_value",
-            type: "uint256"
+            name: '_value',
+            type: 'uint256'
           }
         ],
-        name: "approve",
+        name: 'approve',
         outputs: [
           {
-            name: "",
-            type: "bool"
+            name: '',
+            type: 'bool'
           }
         ],
         payable: false,
-        stateMutability: "nonpayable",
-        type: "function"
+        stateMutability: 'nonpayable',
+        type: 'function'
       }
     ],
     signer
@@ -71,20 +76,20 @@ export const fetchBalance = async (contract, account, digits, fixed) => {
         constant: true,
         inputs: [
           {
-            name: "_owner",
-            type: "address"
+            name: '_owner',
+            type: 'address'
           }
         ],
-        name: "balanceOf",
+        name: 'balanceOf',
         outputs: [
           {
-            name: "balance",
-            type: "uint256"
+            name: 'balance',
+            type: 'uint256'
           }
         ],
         payable: false,
-        stateMutability: "view",
-        type: "function"
+        stateMutability: 'view',
+        type: 'function'
       }
     ],
     web3
@@ -111,24 +116,24 @@ export const fetchAllowance = async (
         constant: true,
         inputs: [
           {
-            name: "_owner",
-            type: "address"
+            name: '_owner',
+            type: 'address'
           },
           {
-            name: "_spender",
-            type: "address"
+            name: '_spender',
+            type: 'address'
           }
         ],
-        name: "allowance",
+        name: 'allowance',
         outputs: [
           {
-            name: "",
-            type: "uint256"
+            name: '',
+            type: 'uint256'
           }
         ],
         payable: false,
-        stateMutability: "view",
-        type: "function"
+        stateMutability: 'view',
+        type: 'function'
       }
     ],
     web3

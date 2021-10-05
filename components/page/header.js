@@ -4,7 +4,8 @@ import { IconButton } from '@chakra-ui/button'
 import { FiSun, FiMoon } from 'react-icons/fi'
 import { useColorMode, useColorModeValue } from '@chakra-ui/color-mode'
 import { Box, Flex, LinkBox, LinkOverlay } from '@chakra-ui/layout'
-
+import { Heading, Text, Center } from '@chakra-ui/react'
+import Ribbon from '../ribbon'
 import { useWeb3 } from '../../contexts/useWeb3'
 
 import UserAddress from './wallet'
@@ -17,12 +18,26 @@ const Header = () => {
   const buttonHoverBgColor = useColorModeValue('gray.100', 'gray.700')
 
   return (
-    <>
-      <Flex justifyContent="space-between" alignItems="center" py={4}>
-        {/* Hardcoded 283 for now to center user wallet component */}
-        <LinkBox width={['auto', 'auto', 283]}>
-          <LinkOverlay href="/">🏔</LinkOverlay>
-        </LinkBox>
+    <Center>
+      <Flex
+        justifyContent="space-between"
+        alignItems="flex-start"
+        py={4}
+        mt={4}
+        w="100%"
+        maxW={{ base: '100%', md: 800 }}
+      >
+        <Flex width={['auto', 'auto']}>
+          <Ribbon w={64} h={64} />
+          <Box ml="2">
+            <Heading size="lg" mb={2}>
+              Ribbon LP Staking
+            </Heading>
+            <Text fontSize="lg" color="gray.500">
+              Stake your RBN/ETH LP position
+            </Text>
+          </Box>
+        </Flex>
         <Box display={['none', 'none', 'none', 'block']}>
           {/* {account && <UserWallet />} */}
         </Box>
@@ -39,7 +54,7 @@ const Header = () => {
           <UserAddress />
         </Box>
       </Flex>
-    </>
+    </Center>
   )
 }
 
