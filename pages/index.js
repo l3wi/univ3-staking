@@ -83,23 +83,26 @@ export default function Home() {
     watchTx(tx.hash, 'Exiting pool & claiming rewards')
   }
 
+  const inRange = (tick, lower, upper) => {
+    return upper > tick && tick > lower
+  }
+
   useEffect(async () => {
     if (account) {
-      /// Calculate APY
-      const data = await getPoolData(IncentiveKey[1], IncentiveKey[0])
-      const emissionsPerSecond =
-        programEmissions / (IncentiveKey[3] - IncentiveKey[2])
-      const apy =
-        ((emissionsPerSecond * data.token * secondsInAYear) / data.tvl) * 100
-      setPool({ ...data, apy })
-
       const lpPositions = await findNFTByPool(account, IncentiveKey)
       setPositions(lpPositions)
     }
+    /// Calculate APY
+    const data = await getPoolData(IncentiveKey[1], IncentiveKey[0])
+    const emissionsPerSecond =
+      programEmissions / (IncentiveKey[3] - IncentiveKey[2])
+    const apy =
+      ((emissionsPerSecond * data.token * secondsInAYear) / data.tvl) * 100
+    setPool({ ...data, apy })
   }, [account, block])
 
   return (
-    <Page title="RBN/ETH">
+    <Page title={pool.symbol ? pool.symbol + '/ETH' : false}>
       <Center>
         <Flex
           flexDirection="column"
@@ -111,11 +114,15 @@ export default function Home() {
           <Flex w="100%" maxW={['100%', 800]} mb={8}>
             <Stat>
               <StatLabel>Staking APR</StatLabel>
-              <StatNumber>{`${commas(pool.apy)}%`}</StatNumber>
+              <StatNumber>
+                {pool.apy ? `${commas(pool.apy)}%` : '0.0%'}
+              </StatNumber>
             </Stat>
             <Stat>
               <StatLabel>Pool TVL</StatLabel>
-              <StatNumber>{`$${commas(pool.tvl)}`}</StatNumber>
+              <StatNumber>
+                {pool.tvl ? `$${commas(pool.tvl)}` : '$0.0'}
+              </StatNumber>
             </Stat>
             <Stat>
               <StatLabel>Claimable Rewards</StatLabel>
@@ -125,8 +132,9 @@ export default function Home() {
                       positions
                         .map((i) => (i.reward ? i.reward / 1e18 : 0))
                         .reduce((a, b) => a + b)
-                    )} ${pool.symbol}`
-                  : '0.0'}
+                    )}`
+                  : '0.0'}{' '}
+                {`${pool.symbol}`}
               </StatNumber>
             </Stat>
           </Flex>
@@ -148,8 +156,9 @@ export default function Home() {
                 <Tr>
                   <Th>Token ID</Th>
                   <Th>Location</Th>
+                  <Th>In Range</Th>
                   <Th isNumeric>Unclaimed Rewards</Th>
-                  <Th isNumeric></Th>
+                  <Th>Actions</Th>
                 </Tr>
               </Thead>
 
@@ -157,12 +166,7 @@ export default function Home() {
                 <Tbody>
                   {positions.map((position) => (
                     <Tr key={position.id}>
-                      <Td>
-                        <Flex align="center">
-                          <Image src="/uni.svg" w="24px" m="0 10px 0 0" />#
-                          {position.id}
-                        </Flex>
-                      </Td>
+                      <Td>#{position.id}</Td>
                       <Td>
                         {!position.deposited && (
                           <Badge rounded="full" px="2" colorScheme="blue">
@@ -180,7 +184,21 @@ export default function Home() {
                           </Badge>
                         ) : null}
                       </Td>
-
+                      <Td>
+                        {inRange(
+                          pool.tick,
+                          position.tickLower,
+                          position.tickUpper
+                        ) ? (
+                          <Badge rounded="full" px="2" colorScheme="green">
+                            YES
+                          </Badge>
+                        ) : (
+                          <Badge rounded="full" px="2" colorScheme="red">
+                            NO
+                          </Badge>
+                        )}
+                      </Td>
                       <Td isNumeric>
                         {commas(position.reward / 1e18)}{' '}
                         {pool.symbol ? pool.symbol : '???'}
@@ -235,11 +253,16 @@ export default function Home() {
             </Table>
             {!positions[0] && (
               <Center flexDirection="column" p="6">
-                <Heading size="sm">No RBN positions found!</Heading>
+                <Heading size="sm">{`No ${
+                  pool.symbol ? pool.symbol : '???'
+                } positions found!`}</Heading>
                 <Text>
                   {`Deposit `}
-                  <Link isExternal>
-                    <b>{`RBN & ETH here`}</b>
+                  <Link
+                    isExternal
+                    href={`https://app.uniswap.org/#/add/ETH/${IncentiveKey[0]}/10000`}
+                  >
+                    <b>{`${pool.symbol ? pool.symbol : '???'} & ETH here`}</b>
                   </Link>
                   {` to get started`}{' '}
                 </Text>

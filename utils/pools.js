@@ -1,14 +1,7 @@
-import {
-  v3Positions,
-  v3Staker,
-  v3Pool,
-  RIBBON,
-  ERC20,
-  BATCHER,
-  DSU_USDC
-} from '../contracts'
+import { v3Positions, v3Staker, v3Pool, ERC20, BATCHER } from '../contracts'
 import { commas } from '../utils/helpers'
 import { ethers } from 'ethers'
+import { Contract, Provider } from 'ethers-multicall'
 import { web3 } from '../utils/ethers'
 
 import univ3prices from '@thanpolas/univ3prices'
@@ -107,55 +100,117 @@ export const findNFTByPool = async (address, program) => {
   const a = await pool.token0()
   const b = await pool.token1()
 
-  const v3Manger = new ethers.Contract(
-    v3Positions.address,
-    v3Positions.abi,
-    web3
-  )
-  const staking = new ethers.Contract(v3Staker.address, v3Staker.abi, web3)
-  const batcher = new ethers.Contract(BATCHER.address, BATCHER.abi, web3)
-
   // Fetch all UNI V3 NFTs owned by the Staker
   let nftList = []
+  const batcher = new ethers.Contract(BATCHER.address, BATCHER.abi, web3)
 
-  const nfts = await batcher.getIds(v3Positions.address, address) // User's NFTS
+  // Get a list of NFTs in the user's wallet
+  const nfts = await batcher.getIds(v3Positions.address, address)
   nfts.map((id) => nftList.push({ id: id.toNumber(), address }))
-
-  const stakerNfts = await batcher.getIds(v3Positions.address, v3Staker.address) //ALL NFTS in STAKER REALLY HACKY
+  // Get a list of NFTs in the staker
+  const stakerNfts = await batcher.getIds(v3Positions.address, v3Staker.address)
   stakerNfts.map((id) =>
     nftList.push({ id: id.toNumber(), address: v3Staker.address })
   )
 
-  const fetchOne = async (owner, id) => {
-    const pos = await v3Manger.positions(id)
-    if (pos.liquidity.toString() === 0) return null
-    if (pos.token0 != a && pos.token1 != a) return null
-    if (pos.token0 != b && pos.token1 != b) return null
+  // Setup Multicall Provider
+  const ethcallProvider = new Provider(web3, 1)
+  // Multicall hates the v3Positions's ABI???????
+  const v3Manger = new Contract(v3Positions.address, [
+    {
+      inputs: [{ internalType: 'uint256', name: 'tokenId', type: 'uint256' }],
+      name: 'positions',
+      outputs: [
+        { internalType: 'uint96', name: 'nonce', type: 'uint96' },
+        { internalType: 'address', name: 'operator', type: 'address' },
+        { internalType: 'address', name: 'token0', type: 'address' },
+        { internalType: 'address', name: 'token1', type: 'address' },
+        { internalType: 'uint24', name: 'fee', type: 'uint24' },
+        { internalType: 'int24', name: 'tickLower', type: 'int24' },
+        { internalType: 'int24', name: 'tickUpper', type: 'int24' },
+        { internalType: 'uint128', name: 'liquidity', type: 'uint128' },
+        {
+          internalType: 'uint256',
+          name: 'feeGrowthInside0LastX128',
+          type: 'uint256'
+        },
+        {
+          internalType: 'uint256',
+          name: 'feeGrowthInside1LastX128',
+          type: 'uint256'
+        },
+        { internalType: 'uint128', name: 'tokensOwed0', type: 'uint128' },
+        { internalType: 'uint128', name: 'tokensOwed1', type: 'uint128' }
+      ],
+      stateMutability: 'view',
+      type: 'function'
+    }
+  ])
+  // get all NFT Data data
+  const nftDataCalls = nftList.map((item) => v3Manger.positions(item.id))
+  const nftData = await ethcallProvider.all(nftDataCalls)
 
-    const position = await staking.deposits(id)
-    if (owner !== address && position.owner !== address) return null
-    let deposited = position.tickLower != 0
+  // Filter out NFTs w/ no liquidity & unrelated to the pool we want
+  // Hacky index lookup to nftList to roll important data over
+  const poolNFTs = nftData
+    .map((pos, i) => {
+      if (pos.liquidity.toString() === 0) return false
+      if (pos.token0 != a && pos.token1 != a) return false
+      if (pos.token0 != b && pos.token1 != b) return false
+      return { ...pos, id: nftList[i].id, address: nftList[i].address }
+    })
+    .filter((item) => item)
+
+  // Query the staker to get the owner of the NFTs
+  const staker = new Contract(v3Staker.address, v3Staker.abi)
+  const activeNFTCalls = poolNFTs.map((item) => staker.deposits(item.id))
+  const activeNFT = await ethcallProvider.all(activeNFTCalls)
+
+  // Filter out the NFTs that aren't owned by the user account
+  const userNFTs = activeNFT
+    .map((pos, i) => {
+      const owner = poolNFTs[i].address
+      if (owner !== address && pos.owner !== address) return false
+      return {
+        id: poolNFTs[i].id,
+        address: poolNFTs[i].address,
+        position: poolNFTs[i]
+      }
+    })
+    .filter((item) => item)
+
+  const stakingSingle = new ethers.Contract(
+    v3Staker.address,
+    v3Staker.abi,
+    web3
+  )
+  /// Finally check to see if the token has rewarded, ie staked
+  const fetchOne = async (token) => {
+    let deposited = token.position.tickLower != 0
     let staked = false
     let reward = null
     try {
-      const [rewardNumber] = await staking.getRewardInfo(program, id)
+      const [rewardNumber] = await stakingSingle.getRewardInfo(
+        program,
+        token.id
+      )
       reward = rewardNumber.toString()
       staked = true
     } catch {}
     return {
-      id,
+      id: token.id,
       deposited,
       reward,
-      staked
+      staked,
+      tickLower: token.position.tickLower,
+      tickUpper: token.position.tickUpper
     }
   }
 
   // Enumerate all active positions
-  let positions = await Promise.all(
-    nftList.map((item) => fetchOne(item.address, item.id))
-  )
+  let positions = await Promise.all(userNFTs.map((item) => fetchOne(item)))
 
-  return positions.filter((item) => item)
+  return positions
 }
 
 // Fetches TVL of a XXX/ETH pool and returns prices
@@ -185,7 +240,7 @@ export const getPoolData = async (pool, token) => {
   )
 
   const tvl = tokenBalance * tokenPrice + wethPrice * wethBalance
-  return { token: tokenPrice, symbol, weth: wethPrice, tvl }
+  return { token: tokenPrice, symbol, weth: wethPrice, tvl, tick: data.tick }
 }
 
 export const getWETHPrice = async () => {
