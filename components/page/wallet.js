@@ -18,7 +18,7 @@ import { useWeb3 } from '../../contexts/useWeb3'
 
 export default function WalletModal() {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { connectWallet, disconnectWallet, account, status, balance } =
+  const { connectWallet, disconnectWallet, account, ens, status, balance } =
     useWeb3()
 
   useEffect(() => {
@@ -40,9 +40,11 @@ export default function WalletModal() {
         {account && (
           <>
             <Text fontSize="sm" m={0}>
-              {account.substring(0, 6) +
-                '...' +
-                account.substring(account.length - 4)}
+              {ens
+                ? ens.toUpperCase()
+                : account.substring(0, 6) +
+                  '...' +
+                  account.substring(account.length - 4)}
             </Text>
           </>
         )}

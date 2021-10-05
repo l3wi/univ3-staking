@@ -9,7 +9,7 @@ import React, {
 
 import { useWallet } from 'use-wallet'
 import { web3, registerProvider } from '../utils/ethers'
-
+import { ethers, utils } from 'ethers'
 import useLocalStorage from '../hooks/useLocalStorage'
 const atob = (a) => Buffer.from(a, 'base64').toString('binary')
 
@@ -21,6 +21,7 @@ export const Web3Provider = (props) => {
   // Remember provider preference
   const [provider, setProvider] = useLocalStorage('provider', false)
   const [block, setBlock] = useState(0)
+  const [ens, setEns] = useState(false)
 
   // Connect/Disconnect Wallet
   const connectWallet = async (key) => {
@@ -61,19 +62,25 @@ export const Web3Provider = (props) => {
     getBlock()
   }
 
+  const fetchENS = async (address) => {
+    setEns(await web3.lookupAddress(address))
+  }
+
   // Once we've connected a wallet, switch to wallet provider
   useEffect(async () => {
     if (status === 'connected') {
-      registerProvider(ethereum)
       console.log('Connected!')
-      if (!account) {
-        initProvider()
-      }
+      registerProvider(ethereum)
+      if (!account) initProvider()
       if (!blockTimer) startTimer()
     } else if (status === 'disconnected') {
       clearInterval(blockTimer)
     }
   }, [status])
+
+  useEffect(() => {
+    if (account) fetchENS(account)
+  }, [account])
 
   // Once loaded, initalise the provider
   useEffect(() => {
@@ -93,9 +100,10 @@ export const Web3Provider = (props) => {
       web3,
       balance: ethBalance,
       ethereum,
-      block
+      block,
+      ens
     }),
-    [web3, provider, account, status, balance, block]
+    [web3, provider, account, status, balance, block, ens]
   )
 
   // pass the value in provider and return
