@@ -113,11 +113,11 @@ export default function Home() {
         <Flex
           flexDirection="column"
           w="100%"
-          maxW={{ base: '100%', md: 800 }}
+          maxW={{ base: '100%', md: 960 }}
           mt={16}
           alignItems="flex-start"
         >
-          <Flex w="100%" maxW={['100%', 800]} mb={8}>
+          <Flex w="100%" maxW={['100%', 960]} mb={8}>
             <Stat>
               <StatLabel>RBN Price</StatLabel>
               <StatNumber>
@@ -161,18 +161,17 @@ export default function Home() {
             bg={cardBgColor}
             borderWidth={1}
             w="100%"
-            maxW={['100%', 800]}
+            maxW={['100%', 960]}
           >
             <Table variant="simple">
               <Thead>
                 <Tr>
                   <Th>Token ID</Th>
                   <Th>Location</Th>
+                  <Th>In Range?</Th>
 
                   <Th>% of Pool</Th>
-                  <Th isNumeric>
-                    Unclaimed {pool.symbol ? pool.symbol : null}
-                  </Th>
+                  <Th isNumeric>Rewards</Th>
                   <Th>Actions</Th>
                 </Tr>
               </Thead>
@@ -194,27 +193,28 @@ export default function Home() {
                           </Badge>
                         ) : null}
                         {position.deposited && position.staked ? (
-                          <Badge rounded="full" px="2" colorScheme="teal">
+                          <Badge rounded="full" px="2" colorScheme="green">
                             STAKED
                           </Badge>
                         ) : null}
                       </Td>
                       <Td>
-                        {/* {inRange(
+                        {inRange(
                           pool.tick,
                           position.tickLower,
                           position.tickUpper
                         ) ? (
                           <Badge rounded="full" px="2" colorScheme="green">
-                            {(position.tickUpper - position.tickLower) /
-                              pool.spacing}
+                            YES
                           </Badge>
                         ) : (
                           <Badge rounded="full" px="2" colorScheme="red">
-                            OUT OF RANGE
+                            NO
                           </Badge>
-                        )} */}
-                        <Badge rounded="full" px="2" colorScheme="green">
+                        )}
+                      </Td>
+                      <Td>
+                        <Badge rounded="full" px="2" colorScheme="blue">
                           {/* {position.liquidity /
                             (position.tickUpper - position.tickLower)} */}
                           {(

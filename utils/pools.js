@@ -93,7 +93,7 @@ export const claimReward = async (tokenId, address, amount, program) => {
     tokenId
   ])
   const claimData = iface.encodeFunctionData('claimReward', [
-    '0x24ae124c4cc33d6791f8e8b63520ed7107ac8b3e',
+    program[0],
     address,
     amount
   ])
@@ -107,16 +107,19 @@ export const claimReward = async (tokenId, address, amount, program) => {
 
 // Unstake, Claim & Exit
 export const exitPool = async (tokenId, address, amount, program) => {
+  console.log(amount)
+
   let iface = new ethers.utils.Interface(v3Staker.abi)
   const unstakeData = iface.encodeFunctionData('unstakeToken', [
     program,
     tokenId
   ])
   const claimData = iface.encodeFunctionData('claimReward', [
-    '0x24ae124c4cc33d6791f8e8b63520ed7107ac8b3e',
+    program[0],
     address,
     amount
   ])
+
   const withdrawData = iface.encodeFunctionData('withdrawToken', [
     tokenId,
     address,
@@ -221,11 +224,27 @@ export const findNFTByPool = async (address, program) => {
     v3Staker.abi,
     web3
   )
+  const manager = new ethers.Contract(
+    v3Positions.address,
+    v3Positions.abi,
+    web3
+  )
   /// Finally check to see if the token has rewarded, ie staked
   const fetchOne = async (token) => {
     let deposited = v3Staker.address === token.address
     let staked = false
     let reward = null
+
+    const MAX_UINT128 = BigNumber.from(2).pow(128).sub(1)
+    const tokenIdHexString = BigNumber.from(token.id).toHexString()
+    const fees = await manager.callStatic.collect({
+      tokenId: tokenIdHexString,
+      recipient: address, // some tokens might fail if transferred to address(0)
+      amount0Max: MAX_UINT128,
+      amount1Max: MAX_UINT128
+    })
+    console.log(ethers.utils.formatUnits(fees.amount0))
+    console.log(ethers.utils.formatUnits(fees.amount1))
     try {
       const [rewardNumber] = await stakingSingle.getRewardInfo(
         program,
@@ -241,7 +260,9 @@ export const findNFTByPool = async (address, program) => {
       staked,
       liquidity: token.position.liquidity.toString(),
       tickLower: token.position.tickLower,
-      tickUpper: token.position.tickUpper
+      tickUpper: token.position.tickUpper,
+      fees0: ethers.utils.formatUnits(fees.amount0),
+      fees1: ethers.utils.formatUnits(fees.amount1)
     }
   }
 
@@ -260,8 +281,6 @@ export const getPoolData = async (pool, token) => {
 
   const token0 = await poolContract.token0()
   const data = await poolContract.slot0()
-
-  // const tick = await poolContract.ticks(data.tick)
 
   const spacing = await poolContract.tickSpacing()
   const liquidity = await poolContract.liquidity()

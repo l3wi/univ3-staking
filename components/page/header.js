@@ -25,7 +25,7 @@ const Header = () => {
         py={4}
         mt={4}
         w="100%"
-        maxW={{ base: '100%', md: 800 }}
+        maxW={{ base: '100%', md: 960 }}
       >
         <Flex width={['auto', 'auto']}>
           <Ribbon w={64} h={64} />
