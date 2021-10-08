@@ -30,6 +30,7 @@ import {
   stakeNFT,
   claimReward,
   exitPool,
+  withdrawNFT,
   getPoolData
 } from '../utils/pools'
 
@@ -70,6 +71,10 @@ export default function Home() {
   const claim = async (id, reward) => {
     const tx = await claimReward(id, account, reward, IncentiveKey)
     watchTx(tx.hash, 'Claiming rewards')
+  }
+  const withdraw = async (id) => {
+    const tx = await withdrawNFT(id, account)
+    watchTx(tx.hash, 'Withdrawing NFT')
   }
 
   const exit = async (id, reward) => {
@@ -226,13 +231,22 @@ export default function Home() {
                             </Button>
                           )}
                           {position.deposited && !position.staked ? (
-                            <Button
-                              colorScheme="orange"
-                              mr="2"
-                              onClick={() => stake(position.id)}
-                            >
-                              Stake LP
-                            </Button>
+                            <>
+                              <Button
+                                colorScheme="orange"
+                                mr="2"
+                                onClick={() => stake(position.id)}
+                              >
+                                Stake LP
+                              </Button>
+                              <Button
+                                colorScheme="gray"
+                                mr="2"
+                                onClick={() => withdraw(position.id)}
+                              >
+                                Withdraw
+                              </Button>
+                            </>
                           ) : null}
                           {position.deposited && position.staked ? (
                             <>

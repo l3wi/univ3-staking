@@ -40,6 +40,14 @@ export const depositNFT = async (tokenId, account) => {
   return tx
 }
 
+export const withdrawNFT = async (tokenId, address) => {
+  const signer = web3.getSigner()
+  const staking = new ethers.Contract(v3Staker.address, v3Staker.abi, signer)
+
+  const tx = await staking.withdrawToken(tokenId, address, [])
+  return tx
+}
+
 export const stakeNFT = async (tokenId, program) => {
   const signer = web3.getSigner()
   const staking = new ethers.Contract(v3Staker.address, v3Staker.abi, signer)
@@ -223,10 +231,8 @@ export const getPoolData = async (pool, token) => {
 
   const token0 = await poolContract.token0()
   const data = await poolContract.slot0()
-  const currentTick = BigNumber.from(data.tick).div(
-    ethers.BigNumber.from(2).pow(24)
-  )
-  const tick = await poolContract.ticks(currentTick)
+
+  // const tick = await poolContract.ticks(data.tick)
 
   const spacing = await poolContract.tickSpacing()
   const liquidity = await poolContract.liquidity()
