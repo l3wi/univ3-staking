@@ -1,6 +1,6 @@
 import { v3Positions, v3Staker, v3Pool, ERC20, BATCHER } from '../contracts'
 import { commas } from '../utils/helpers'
-import { ethers } from 'ethers'
+import { ethers, BigNumber } from 'ethers'
 import { Contract, Provider } from 'ethers-multicall'
 import { web3 } from '../utils/ethers'
 
@@ -186,7 +186,7 @@ export const findNFTByPool = async (address, program) => {
   )
   /// Finally check to see if the token has rewarded, ie staked
   const fetchOne = async (token) => {
-    let deposited = token.position.tickLower != 0
+    let deposited = v3Staker.address === token.address
     let staked = false
     let reward = null
     try {
@@ -202,6 +202,7 @@ export const findNFTByPool = async (address, program) => {
       deposited,
       reward,
       staked,
+      liquidity: token.position.liquidity.toString(),
       tickLower: token.position.tickLower,
       tickUpper: token.position.tickUpper
     }
@@ -222,6 +223,13 @@ export const getPoolData = async (pool, token) => {
 
   const token0 = await poolContract.token0()
   const data = await poolContract.slot0()
+  const currentTick = BigNumber.from(data.tick).div(
+    ethers.BigNumber.from(2).pow(24)
+  )
+  const tick = await poolContract.ticks(currentTick)
+
+  const spacing = await poolContract.tickSpacing()
+  const liquidity = await poolContract.liquidity()
   const ratio = univ3prices([18, 18], data.sqrtPriceX96).toAuto()
 
   const tokenPrice = token0 === weth ? wethPrice * ratio : wethPrice / ratio
@@ -240,7 +248,15 @@ export const getPoolData = async (pool, token) => {
   )
 
   const tvl = tokenBalance * tokenPrice + wethPrice * wethBalance
-  return { token: tokenPrice, symbol, weth: wethPrice, tvl, tick: data.tick }
+  return {
+    token: tokenPrice,
+    symbol,
+    weth: wethPrice,
+    tvl,
+    tick: data.tick,
+    spacing,
+    liquidity: liquidity.toString()
+  }
 }
 
 export const getWETHPrice = async () => {
