@@ -22,7 +22,7 @@ function Alerts() {
   return (
     <Box
       position="fixed"
-      bottom="130"
+      bottom="60px"
       right={['10', '0']}
       p="10px 30px"
       zIndex="10"
