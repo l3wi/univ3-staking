@@ -30,7 +30,7 @@ export default function FAQs() {
             </AccordionButton>
           </h2>
           <AccordionPanel pb={4}>
-            <Text>{`Liquidity Providing (LP) is a new allows everyone to become a market maker. 
+            <Text>{`Liquidity Providing (LP) allows everyone to become a market maker. 
             It's unique to Automated Market Makers (AMMs) like Uniswap & Curve. When you LP you 
             are providing tokens to be used as a counter-party when someone wants to buy or sell a token. `}</Text>
             <br />
