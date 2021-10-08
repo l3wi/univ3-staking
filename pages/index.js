@@ -3,7 +3,6 @@ import {
   Stat,
   StatLabel,
   StatNumber,
-  StatHelpText,
   Flex,
   Table,
   Thead,
@@ -37,30 +36,30 @@ import {
 import { comma } from '../utils/helpers'
 
 // ESS TESTING
-const IncentiveKey = [
-  '0x24aE124c4CC33D6791F8E8B63520ed7107ac8b3e',
-  '0xd2Ef54450ec52347bde3dab7B086bf2a005601d8',
-  1630272524,
-  1638048524,
-  '0xD05aCe63789cCb35B9cE71d01e4d632a0486Da4B'
-]
-
-// // RBN PROGRAM
 // const IncentiveKey = [
-//   '0x6123B0049F904d730dB3C36a31167D9d4121fA6B',
-//   '0x94981F69F7483AF3ae218CbfE65233cC3c60d93a',
-//   1633564800,
-//   1638748800,
-//   '0xDAEada3d210D2f45874724BeEa03C7d4BBD41674'
+//   '0x24aE124c4CC33D6791F8E8B63520ed7107ac8b3e',
+//   '0xd2Ef54450ec52347bde3dab7B086bf2a005601d8',
+//   1630272524,
+//   1638048524,
+//   '0xD05aCe63789cCb35B9cE71d01e4d632a0486Da4B'
 // ]
 
-const programEmissions = 4000000
-// const programEmissions = 10000000
+// // RBN PROGRAM
+const IncentiveKey = [
+  '0x6123B0049F904d730dB3C36a31167D9d4121fA6B',
+  '0x94981F69F7483AF3ae218CbfE65233cC3c60d93a',
+  1633564800,
+  1638748800,
+  '0xDAEada3d210D2f45874724BeEa03C7d4BBD41674'
+]
+
+// const programEmissions = 4000000
+const programEmissions = 10000000
 const secondsInAYear = 31540000
 
 export default function Home() {
   const { account, block } = useWeb3()
-  const { watchTx } = useAlerts()
+  const { watchTx, addAlert } = useAlerts()
   const [positions, setPositions] = useState([])
   const [pool, setPool] = useState({})
   const cardBgColor = useColorModeValue('white', 'gray.700')
@@ -70,8 +69,12 @@ export default function Home() {
     watchTx(tx.hash, 'Depositing NFT')
   }
   const stake = async (id) => {
-    const tx = await stakeNFT(id, IncentiveKey)
-    watchTx(tx.hash, 'Staking NFT')
+    try {
+      const tx = await stakeNFT(id, IncentiveKey)
+      watchTx(tx.hash, 'Staking NFT')
+    } catch (error) {
+      addAlert('fail', 'Program not active. Try later')
+    }
   }
   const claim = async (id, reward) => {
     const tx = await claimReward(id, account, reward, IncentiveKey)
@@ -113,15 +116,21 @@ export default function Home() {
         >
           <Flex w="100%" maxW={['100%', 800]} mb={8}>
             <Stat>
-              <StatLabel>Staking APR</StatLabel>
+              <StatLabel>RBN Price</StatLabel>
               <StatNumber>
-                {pool.apy ? `${commas(pool.apy)}%` : '0.0%'}
+                {pool.tvl ? `$${commas(pool.token)}` : '$0.0'}
               </StatNumber>
             </Stat>
             <Stat>
               <StatLabel>Pool TVL</StatLabel>
               <StatNumber>
                 {pool.tvl ? `$${commas(pool.tvl)}` : '$0.0'}
+              </StatNumber>
+            </Stat>
+            <Stat>
+              <StatLabel>Staking APR</StatLabel>
+              <StatNumber>
+                {pool.apy ? `${commas(pool.apy)}%` : '0.0%'}
               </StatNumber>
             </Stat>
             <Stat>
@@ -134,7 +143,7 @@ export default function Home() {
                         .reduce((a, b) => a + b)
                     )}`
                   : '0.0'}{' '}
-                {`${pool.symbol}`}
+                {`${pool.symbol ? pool.symbol : ''}`}
               </StatNumber>
             </Stat>
           </Flex>
@@ -156,8 +165,11 @@ export default function Home() {
                 <Tr>
                   <Th>Token ID</Th>
                   <Th>Location</Th>
-                  <Th>In Range</Th>
-                  <Th isNumeric>Unclaimed Rewards</Th>
+
+                  <Th>% of Pool</Th>
+                  <Th isNumeric>
+                    Unclaimed {pool.symbol ? pool.symbol : null}
+                  </Th>
                   <Th>Actions</Th>
                 </Tr>
               </Thead>
@@ -185,29 +197,37 @@ export default function Home() {
                         ) : null}
                       </Td>
                       <Td>
-                        {inRange(
+                        {/* {inRange(
                           pool.tick,
                           position.tickLower,
                           position.tickUpper
                         ) ? (
                           <Badge rounded="full" px="2" colorScheme="green">
-                            YES
+                            {(position.tickUpper - position.tickLower) /
+                              pool.spacing}
                           </Badge>
                         ) : (
                           <Badge rounded="full" px="2" colorScheme="red">
-                            NO
+                            OUT OF RANGE
                           </Badge>
-                        )}
+                        )} */}
+                        <Badge rounded="full" px="2" colorScheme="green">
+                          {/* {position.liquidity /
+                            (position.tickUpper - position.tickLower)} */}
+                          {(
+                            (position.liquidity / pool.liquidity) *
+                            100
+                          ).toFixed(3)}
+                          %
+                        </Badge>
                       </Td>
-                      <Td isNumeric>
-                        {commas(position.reward / 1e18)}{' '}
-                        {pool.symbol ? pool.symbol : '???'}
-                      </Td>
+
+                      <Td isNumeric>{commas(position.reward / 1e18)}</Td>
                       <Td isNumeric>
                         <Flex>
                           {!position.deposited && (
                             <Button
-                              colorScheme="green"
+                              colorScheme="blue"
                               mr="2"
                               onClick={() => deposit(position.id)}
                             >
@@ -216,7 +236,7 @@ export default function Home() {
                           )}
                           {position.deposited && !position.staked ? (
                             <Button
-                              colorScheme="purple"
+                              colorScheme="orange"
                               mr="2"
                               onClick={() => stake(position.id)}
                             >
@@ -226,7 +246,7 @@ export default function Home() {
                           {position.deposited && position.staked ? (
                             <>
                               <Button
-                                colorScheme="orange"
+                                colorScheme="red"
                                 mr="2"
                                 onClick={() =>
                                   claim(position.id, position.reward)
