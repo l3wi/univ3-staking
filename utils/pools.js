@@ -17,7 +17,7 @@ import univ3prices from '@thanpolas/univ3prices'
 //   return program
 // }
 
-// Approve and Transfer the NFT in
+// OLD CALL --- Approve and Transfer the NFT in
 export const depositNFT = async (tokenId, account) => {
   let iface = new ethers.utils.Interface(v3Positions.abi)
   const approveData = iface.encodeFunctionData('setApprovalForAll', [
@@ -27,6 +27,35 @@ export const depositNFT = async (tokenId, account) => {
   const transferData = iface.encodeFunctionData(
     'safeTransferFrom(address,address,uint256)',
     [account, v3Staker.address, tokenId]
+  )
+
+  const signer = web3.getSigner()
+  const manager = new ethers.Contract(
+    v3Positions.address,
+    v3Positions.abi,
+    signer
+  )
+
+  const tx = await manager.multicall([approveData, transferData])
+  return tx
+}
+
+// NEW CALL -- Approve/Transfer the NFT in
+export const depositStakeNFT = async (tokenId, account, program) => {
+  const encoder = ethers.utils.defaultAbiCoder
+  const programCallData = encoder.encode(
+    ['address', 'address', 'uint256', 'uint256', 'address'],
+    program
+  )
+
+  let iface = new ethers.utils.Interface(v3Positions.abi)
+  const approveData = iface.encodeFunctionData('setApprovalForAll', [
+    v3Staker.address,
+    true
+  ])
+  const transferData = iface.encodeFunctionData(
+    'safeTransferFrom(address,address,uint256, bytes)',
+    [account, v3Staker.address, tokenId, programCallData]
   )
 
   const signer = web3.getSigner()

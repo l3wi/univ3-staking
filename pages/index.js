@@ -27,6 +27,7 @@ import { commas } from '../utils/helpers'
 import {
   findNFTByPool,
   depositNFT,
+  depositStakeNFT,
   stakeNFT,
   claimReward,
   exitPool,
@@ -45,7 +46,6 @@ const IncentiveKey = [
   '0xDAEada3d210D2f45874724BeEa03C7d4BBD41674'
 ]
 
-// const programEmissions = 4000000
 const programEmissions = 10000000
 const secondsInAYear = 31540000
 
@@ -57,9 +57,19 @@ export default function Home() {
   const cardBgColor = useColorModeValue('white', 'gray.700')
 
   const deposit = async (id) => {
-    const tx = await depositNFT(id, account)
-    watchTx(tx.hash, 'Depositing NFT')
+    try {
+      const tx = await depositStakeNFT(id, account, IncentiveKey)
+      watchTx(tx.hash, 'Depositing NFT')
+    } catch (error) {
+      addAlert('fail', 'Program not active. Try later')
+    }
   }
+
+  const withdraw = async (id) => {
+    const tx = await withdrawNFT(id, account)
+    watchTx(tx.hash, 'Withdrawing NFT')
+  }
+
   const stake = async (id) => {
     try {
       const tx = await stakeNFT(id, IncentiveKey)
@@ -68,13 +78,10 @@ export default function Home() {
       addAlert('fail', 'Program not active. Try later')
     }
   }
+
   const claim = async (id, reward) => {
     const tx = await claimReward(id, account, reward, IncentiveKey)
     watchTx(tx.hash, 'Claiming rewards')
-  }
-  const withdraw = async (id) => {
-    const tx = await withdrawNFT(id, account)
-    watchTx(tx.hash, 'Withdrawing NFT')
   }
 
   const exit = async (id, reward) => {
