@@ -167,6 +167,7 @@ export default function Home() {
               <Thead>
                 <Tr>
                   <Th>Token ID</Th>
+                  <Th>Location</Th>
                   <Th>In Range?</Th>
                   <Th>% of Pool</Th>
                   <Th>Fees</Th>
@@ -179,8 +180,32 @@ export default function Home() {
                 <Tbody>
                   {positions.map((position) => (
                     <Tr key={position.id}>
-                      <Td>#{position.id}</Td>
-
+                      <Td fontSize="sm">
+                        <Link
+                          textDecoration="underline"
+                          isExternal
+                          href={`https://app.uniswap.org/#/pool/${position.id}`}
+                        >
+                          #{position.id}
+                        </Link>
+                      </Td>
+                      <Td>
+                        {!position.deposited && (
+                          <Badge rounded="full" px="2" colorScheme="blue">
+                            WALLET
+                          </Badge>
+                        )}
+                        {position.deposited && !position.staked ? (
+                          <Badge rounded="full" px="2" colorScheme="yellow">
+                            STAKER
+                          </Badge>
+                        ) : null}
+                        {position.deposited && position.staked ? (
+                          <Badge rounded="full" px="2" colorScheme="green">
+                            STAKED
+                          </Badge>
+                        ) : null}
+                      </Td>
                       <Td>
                         {inRange(
                           pool.tick,
@@ -198,8 +223,6 @@ export default function Home() {
                       </Td>
                       <Td>
                         <Badge rounded="full" px="2" colorScheme="blue">
-                          {/* {position.liquidity /
-                            (position.tickUpper - position.tickLower)} */}
                           {(
                             (position.liquidity / pool.liquidity) *
                             100
@@ -207,7 +230,7 @@ export default function Home() {
                           %
                         </Badge>
                       </Td>
-                      <Td>
+                      <Td fontSize="sm" w="fit-content">
                         <Box>
                           {commas(position.fees0)} <b>{pool.symbol}</b>
                         </Box>
@@ -216,7 +239,7 @@ export default function Home() {
                         </Box>
                       </Td>
 
-                      <Td>
+                      <Td fontSize="sm">
                         {commas(position.reward / 1e18)} {pool.symbol}
                       </Td>
                       <Td isNumeric>
