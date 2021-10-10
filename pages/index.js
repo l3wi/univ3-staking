@@ -167,11 +167,10 @@ export default function Home() {
               <Thead>
                 <Tr>
                   <Th>Token ID</Th>
-                  <Th>Location</Th>
                   <Th>In Range?</Th>
-
                   <Th>% of Pool</Th>
-                  <Th isNumeric>Rewards</Th>
+                  <Th>Fees</Th>
+                  <Th>Rewards</Th>
                   <Th>Actions</Th>
                 </Tr>
               </Thead>
@@ -181,23 +180,7 @@ export default function Home() {
                   {positions.map((position) => (
                     <Tr key={position.id}>
                       <Td>#{position.id}</Td>
-                      <Td>
-                        {!position.deposited && (
-                          <Badge rounded="full" px="2" colorScheme="blue">
-                            WALLET
-                          </Badge>
-                        )}
-                        {position.deposited && !position.staked ? (
-                          <Badge rounded="full" px="2" colorScheme="yellow">
-                            STAKER
-                          </Badge>
-                        ) : null}
-                        {position.deposited && position.staked ? (
-                          <Badge rounded="full" px="2" colorScheme="green">
-                            STAKED
-                          </Badge>
-                        ) : null}
-                      </Td>
+
                       <Td>
                         {inRange(
                           pool.tick,
@@ -224,8 +207,18 @@ export default function Home() {
                           %
                         </Badge>
                       </Td>
+                      <Td>
+                        <Box>
+                          {commas(position.fees0)} <b>{pool.symbol}</b>
+                        </Box>
+                        <Box>
+                          {commas(position.fees1)} <b>WETH</b>
+                        </Box>
+                      </Td>
 
-                      <Td isNumeric>{commas(position.reward / 1e18)}</Td>
+                      <Td>
+                        {commas(position.reward / 1e18)} {pool.symbol}
+                      </Td>
                       <Td isNumeric>
                         <Flex>
                           {!position.deposited && (
