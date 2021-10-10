@@ -117,7 +117,7 @@ export default function FAQs() {
           <h2>
             <AccordionButton>
               <Box flex="1" textAlign="left" fontWeight="600">
-                I don't see my Uniswap LP position on the Uniswap website anymore. Why?
+                I don&apos;t see my Uniswap LP position on the Uniswap website anymore. Why?
               </Box>
               <AccordionIcon />
             </AccordionButton>
@@ -125,7 +125,7 @@ export default function FAQs() {
           <AccordionPanel pb={4}>
             <Text>When you stake your NFT, your NFT will be temporarily held on the Staker contract. This gives it the ability to earn RBN rewards for providing liquidity. When you Exit, the NFT will be returned back to your wallet.</Text>
             <br/>
-            <Text>To see details of the position, click the 'Token ID' link on the left-hand side of the position.</Text>
+            <Text>To see details of the position, click the &apos;Token ID&apos; link on the left-hand side of the position.</Text>
           </AccordionPanel>
         </AccordionItem>
         <AccordionItem>
