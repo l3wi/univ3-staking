@@ -180,7 +180,7 @@ export default function Home() {
                 <Tbody>
                   {positions.map((position) => (
                     <Tr key={position.id}>
-                      <Td>#{position.id}</Td>
+                      <Td><a style={{textDecoration:'underline'}} href={`https://app.uniswap.org/#/pool/${position.id}`}>#{position.id}</a></Td>
                       <Td>
                         {!position.deposited && (
                           <Badge rounded="full" px="2" colorScheme="blue">
