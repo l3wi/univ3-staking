@@ -65,7 +65,13 @@ export const depositStakeNFT = async (tokenId, account, program) => {
     signer
   )
 
-  const tx = await manager.multicall([approveData, transferData])
+  // Estimate & Bump gasLimit by 1.2x
+  const gas = await manager.estimateGas.multicall([approveData, transferData])
+  const gasLimit = Math.ceil(gas.toNumber() * 1.2)
+
+  const tx = await manager.multicall([approveData, transferData], {
+    gasLimit
+  })
   return tx
 }
 
@@ -101,7 +107,18 @@ export const claimReward = async (tokenId, address, amount, program) => {
 
   const signer = web3.getSigner()
   const staking = new ethers.Contract(v3Staker.address, v3Staker.abi, signer)
-  const tx = await staking.multicall([unstakeData, claimData, stakeData])
+
+  // Estimate & Bump gasLimit by 1.2x
+  const gas = await staking.estimateGas.multicall([
+    unstakeData,
+    claimData,
+    stakeData
+  ])
+  const gasLimit = Math.ceil(gas.toNumber() * 1.2)
+
+  const tx = await staking.multicall([unstakeData, claimData, stakeData], {
+    gasLimit
+  })
   return tx
 }
 
@@ -128,7 +145,14 @@ export const exitPool = async (tokenId, address, amount, program) => {
 
   const signer = web3.getSigner()
   const staking = new ethers.Contract(v3Staker.address, v3Staker.abi, signer)
-  const tx = await staking.multicall([unstakeData, claimData, withdrawData])
+
+  // Estimate & Bump gasLimit by 1.2x
+  const gas = await manager.estimateGas.multicall([approveData, transferData])
+  const gasLimit = Math.ceil(gas.toNumber() * 1.2)
+
+  const tx = await staking.multicall([unstakeData, claimData, withdrawData], {
+    gasLimit
+  })
   return tx
 }
 
@@ -243,8 +267,7 @@ export const findNFTByPool = async (address, program) => {
       amount0Max: MAX_UINT128,
       amount1Max: MAX_UINT128
     })
-    console.log(ethers.utils.formatUnits(fees.amount0))
-    console.log(ethers.utils.formatUnits(fees.amount1))
+
     try {
       const [rewardNumber] = await stakingSingle.getRewardInfo(
         program,
