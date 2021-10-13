@@ -145,14 +145,12 @@
   display: flex;
 
   > img {
-    width: 30px !important;
-    height: 30px !important;
     background-color: white;
     padding: 1px;
     border-radius: 50%;
 
     &:not(:last-of-type) {
-      margin-right: 1em;
+      margin-right: 0.5em;
     }
   }
 }
@@ -165,9 +163,10 @@
     margin: auto 0;
   }
 
+  svg,
   img {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
   }
 
   h2 {
@@ -176,7 +175,7 @@
     font-family: $font-text;
 
     span {
-      margin-left: 1em;
+      margin-left: 0.5em;
     }
 
     > * {

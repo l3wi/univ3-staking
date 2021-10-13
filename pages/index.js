@@ -246,7 +246,22 @@ const Positions = ({ positions = [], pool }) => {
                   <h2>Liquidity</h2>
                   <span>{"--"}</span>
                 </div>
-
+                <div className={style.positionStat}>
+                  <h2>Rewards</h2>
+                  <div>
+                    <div className={style.currency}>
+                      <CountUp
+                        decimals={2}
+                        end={position.reward / 1e18}
+                        preserveValue={true}
+                        separator={","}
+                        duration={2}
+                        prefix={""}
+                        suffix={" RBN"}
+                      />
+                    </div>
+                  </div>
+                </div>
                 <div className={style.positionStat}>
                   <h2>Fees</h2>
                   <div>
@@ -279,22 +294,6 @@ const Positions = ({ positions = [], pool }) => {
                         duration={2}
                         prefix={""}
                         suffix={" ETH"}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className={style.positionStat}>
-                  <h2>Rewards</h2>
-                  <div>
-                    <div className={style.currency}>
-                      <CountUp
-                        decimals={2}
-                        end={position.reward / 1e18}
-                        preserveValue={true}
-                        separator={","}
-                        duration={2}
-                        prefix={""}
-                        suffix={" RBN"}
                       />
                     </div>
                   </div>
