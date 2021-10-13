@@ -79,8 +79,8 @@ export default function Home() {
     }
   }
 
-  const claim = async (id, reward) => {
-    const tx = await claimReward(id, account, reward, IncentiveKey)
+  const claim = async (id) => {
+    const tx = await claimReward(id, account, '0', IncentiveKey)
     watchTx(tx.hash, 'Claiming rewards')
   }
 
@@ -277,7 +277,7 @@ export default function Home() {
                                 colorScheme="red"
                                 mr="2"
                                 onClick={() =>
-                                  claim(position.id, position.reward)
+                                  claim(position.id)
                                 }
                               >
                                 Claim
