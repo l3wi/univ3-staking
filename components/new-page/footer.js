@@ -20,7 +20,7 @@ const Footer = () => {
   const { block } = useWeb3();
   return (
     <div className={style.footer}>
-      <p>Simple UI for Ribbon's Uniswap V3 Staking Program</p>
+      <div></div>
       <div className={style.links}>
         {block > 0 && (
           <Link

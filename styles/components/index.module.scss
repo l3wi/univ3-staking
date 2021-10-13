@@ -26,7 +26,6 @@
 .numberedStat {
   width: 50%;
   padding: 2em;
-  padding-bottom: 1em;
   border-bottom: 1px solid $gray-light;
 
   h6 {
@@ -76,6 +75,8 @@
   padding: 1em;
   width: 25%;
   border-radius: 6px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 
   h6 {
     font-family: $font-header;
@@ -90,6 +91,22 @@
   &:not(:last-of-type) {
     border-right: 1px solid $gray-light;
   }
+
+  &:nth-of-type(3) {
+    border-top: 2px solid $green;
+  }
+
+  &:nth-of-type(4) {
+    border-top: 2px solid #315dbf;
+  }
+
+  &:nth-of-type(5) {
+    border-top: 2px solid #9b4baf;
+  }
+
+  &:nth-of-type(6) {
+    border-top: 2px solid #ff006a;
+  }
 }
 
 .positionWrapper {
@@ -98,7 +115,7 @@
   }
 }
 
-.positionHeader {
+.positionList {
   display: flex;
   justify-content: space-between;
 
@@ -123,15 +140,37 @@
   }
 }
 
-.position {
-  //   border-radius: 6px;
-  border-top-right-radius: 6px;
-  border-bottom-right-radius: 6px;
-  background: $gray-light;
+.positionCTA {
+  padding: 2em;
+  display: flex;
 
-  margin-top: 1em;
+  > img {
+    width: 30px !important;
+    height: 30px !important;
+    background-color: white;
+    padding: 1px;
+    border-radius: 50%;
 
-  > h2 {
+    &:not(:last-of-type) {
+      margin-right: 1em;
+    }
+  }
+}
+
+.positionHeader {
+  display: flex;
+  justify-content: space-between;
+
+  > * {
+    margin: auto 0;
+  }
+
+  img {
+    width: 40px;
+    height: 40px;
+  }
+
+  h2 {
     display: flex;
     padding: 2em;
     font-family: $font-text;
@@ -144,6 +183,15 @@
       margin: auto 0;
     }
   }
+}
+
+.position {
+  //   border-radius: 6px;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  background: $gray-light;
+
+  margin-top: 1em;
 }
 
 .positionRange {
@@ -192,7 +240,7 @@
   position: relative;
   display: flex;
   height: 4px;
-  background-color: $gray-light;
+  background-color: $green;
   margin: 0.5em 0;
   border-radius: 6px;
 }
@@ -201,7 +249,7 @@
   width: 10%;
   display: block;
   height: inherit;
-  background-color: $red;
+  background-color: #333;
   border-top-left-radius: 6px;
   border-bottom-left-radius: 6px;
 }
@@ -212,7 +260,7 @@
   width: 10%;
   display: block;
   height: inherit;
-  background-color: $green;
+  background-color: #333;
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
 }
