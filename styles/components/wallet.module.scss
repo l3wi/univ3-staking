@@ -1,0 +1,37 @@
+@import "../variables.scss";
+
+.button {
+  font-family: $font-text;
+  text-transform: uppercase;
+  color: $green;
+  font-weight: normal !important;
+  font-size: 14px !important;
+}
+
+.modalHeader {
+  text-transform: uppercase;
+  display: flex;
+  font-family: $font-text;
+  text-align: center;
+  background: $gray-dark;
+  font-weight: normal !important;
+  border-bottom: 1px solid $gray-light;
+}
+
+.modalBody {
+  background: $gray-dark;
+
+  h3 {
+    font-family: $font-text !important;
+    text-transform: uppercase;
+    margin-top: 1em;
+  }
+
+  > div {
+    border-radius: 6px;
+
+    &:hover {
+      background-color: $gray-light;
+    }
+  }
+}

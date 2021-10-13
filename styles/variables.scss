@@ -1,0 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
+@font-face {
+  font-family: "VCR";
+  src: local("VCR"), url(../styles/fonts/VCR_OSD_MONO.ttf) format("truetype");
+}
+
+$font-header: "Inter", sans-serif;
+$font-text: "VCR";
+
+$bg: rgb(3, 3, 9);
+
+$gray-dark: rgb(18, 18, 24);
+$gray-light: rgba(255, 255, 255, 0.08);
+
+$text-gray-light: rgb(172, 172, 171);
+$text-gray: rgba(255, 255, 255, 0.32);
+
+$green: #16ceb9;
+$red: #fc0a54;

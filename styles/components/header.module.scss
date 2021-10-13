@@ -1,0 +1,43 @@
+@import "../variables.scss";
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  height: 72px;
+  width: 100%;
+  border-bottom: 1px solid $gray-light;
+
+  > * {
+    margin: auto 0;
+  }
+}
+
+.logo {
+  display: flex;
+  font-family: $font-text;
+  text-transform: uppercase;
+
+  > * {
+    margin: auto 0;
+
+    &:not(:last-child) {
+      margin-right: 1em;
+    }
+  }
+
+  svg {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.directory {
+  font-family: $font-text;
+  text-transform: uppercase;
+
+  > * {
+    &:not(:last-child) {
+      margin-right: 4em;
+    }
+  }
+}

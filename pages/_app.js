@@ -1,26 +1,27 @@
-import { Web3Provider } from '../contexts/useWeb3'
-import { useWallet, UseWalletProvider } from 'use-wallet'
-import { AlertProvider } from '../contexts/useAlerts'
-import { chainID } from '../utils/ethers'
+import { Web3Provider } from "../contexts/useWeb3";
+import { useWallet, UseWalletProvider } from "use-wallet";
+import { AlertProvider } from "../contexts/useAlerts";
+import { chainID } from "../utils/ethers";
 
-import { ChakraProvider, CSSReset, extendTheme } from '@chakra-ui/react'
+import { ChakraProvider, CSSReset, extendTheme } from "@chakra-ui/react";
+import "../styles/index.scss";
 
 const theme = {
-  initialColorMode: 'dark',
+  initialColorMode: "dark",
   styles: {
     global: {
-      'html, body': {
-        minHeight: '100vh',
-        fontSize: 'sm',
-        color: 'gray.600',
-        lineHeight: 'tall'
+      "html, body": {
+        minHeight: "100vh",
+        fontSize: "sm",
+        color: "gray.600",
+        lineHeight: "tall",
       },
       a: {
-        color: 'teal.500'
-      }
-    }
-  }
-}
+        color: "teal.500",
+      },
+    },
+  },
+};
 
 export default function App({ Component, pageProps }) {
   return (
@@ -29,8 +30,8 @@ export default function App({ Component, pageProps }) {
       <UseWalletProvider
         chainId={chainID}
         connectors={{
-          walletconnect: { rpcUrl: 'https://mainnet.eth.aragon.network/' },
-          walletlink: { url: 'https://mainnet.eth.aragon.network/' }
+          walletconnect: { rpcUrl: "https://mainnet.eth.aragon.network/" },
+          walletlink: { url: "https://mainnet.eth.aragon.network/" },
         }}
       >
         <AlertProvider>
@@ -40,5 +41,5 @@ export default function App({ Component, pageProps }) {
         </AlertProvider>
       </UseWalletProvider>
     </ChakraProvider>
-  )
+  );
 }

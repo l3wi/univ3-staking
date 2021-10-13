@@ -1,0 +1,27 @@
+@import "./variables.scss";
+
+@font-face {
+  font-family: "VCR";
+  src: local("VCR"), url(../styles/fonts/VCR_OSD_MONO.ttf) format("truetype");
+}
+
+body {
+  margin: 0;
+  font-family: $font-text;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body :not(input):not(textarea):not([contenteditable="true"]) {
+  user-select: auto !important;
+  -webkit-user-select: auto !important;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+a:link {
+  text-decoration: none;
+}
