@@ -1,14 +1,14 @@
-import { Box, Flex } from '@chakra-ui/layout'
-import Footer from './footer'
-import Header from './header'
-import Alerts from './alerts'
-import React from 'react'
-import Head from 'next/head'
+import { Box, Flex } from "@chakra-ui/layout";
+import Footer from "./footer";
+import Header from "./header";
+import Alerts from "./alerts";
+import React from "react";
+import Head from "next/head";
 
-import { useColorModeValue } from '@chakra-ui/color-mode'
+import { useColorModeValue } from "@chakra-ui/color-mode";
 
 const Layout = ({ children, title }) => {
-  const bgColor = useColorModeValue('gray.50', 'gray.800')
+  const bgColor = useColorModeValue("gray.50", "gray.800");
 
   return (
     <Flex
@@ -33,7 +33,7 @@ const Layout = ({ children, title }) => {
         <meta property="og:site_name" content="Uniswap V3 staker" />
         <meta
           property="og:image"
-          content="https://staker.projects.sh/image.png"
+          content="https://staker.projects.sh/meta.png"
         />
       </Head>
       <Alerts />
@@ -41,6 +41,6 @@ const Layout = ({ children, title }) => {
       <Box flexGrow={1}>{children}</Box>
       <Footer />
     </Flex>
-  )
-}
-export default Layout
+  );
+};
+export default Layout;

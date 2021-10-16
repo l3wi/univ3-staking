@@ -1,0 +1,421 @@
+@import "../variables.scss";
+@import "../keyframes.scss";
+
+.currency {
+  font-family: $font-text;
+  display: flex;
+
+  > * {
+    margin: auto 0;
+  }
+
+  img,
+  svg {
+    margin-right: 0.5em;
+  }
+}
+
+.page {
+  max-width: 800px;
+  margin: 0 auto;
+
+  > h2 {
+    font-family: $font-text;
+    text-transform: uppercase;
+  }
+}
+
+.stats {
+  border: 1px solid #333;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  background-color: $gray-light;
+  border-radius: 6px;
+  margin-top: 2em;
+}
+
+.numberedStat {
+  width: 50%;
+  padding: 2em;
+  border-bottom: 1px solid $gray-light;
+
+  h6 {
+    font-family: $font-text;
+    text-transform: uppercase;
+  }
+
+  &:nth-child(1) > .progressDesc {
+    border-color: $green;
+  }
+
+  &:nth-child(2) > .progressDesc {
+    border-color: $red;
+  }
+
+  .progressDesc {
+    color: $text-gray-light;
+    font-size: 14px;
+    margin-top: 0.5em;
+    text-align: justify;
+    border-left: 3px solid;
+    padding-left: 0.5em;
+  }
+
+  .progressHeader {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: $text-gray-light;
+    margin-top: 2em;
+  }
+
+  .progressBar {
+    width: 100%;
+    height: 4px;
+    background-color: $gray-light;
+    border-radius: 12px;
+    margin: 0.5em 0;
+    border-radius: 6px;
+
+    .progress {
+      border-radius: 6px;
+      width: 10%;
+      display: block;
+      height: inherit;
+      background-color: $green;
+    }
+  }
+
+  .progressFooter {
+    color: $text-gray-light;
+    font-size: 14px;
+  }
+}
+
+.stat {
+  padding: 1em;
+  width: 25%;
+  border-radius: 6px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+
+  h6 {
+    font-family: $font-header;
+    color: $text-gray-light;
+    font-size: 12px !important;
+  }
+
+  p {
+    display: flex;
+    font-family: $font-text;
+
+    > * {
+      margin: auto 0;
+    }
+
+    svg,
+    img {
+      margin-right: 0.5em;
+    }
+  }
+
+  &:not(:last-of-type) {
+    border-right: 1px solid $gray-light;
+  }
+
+  // &:nth-of-type(3) {
+  //   border-top: 2px solid $green;
+  // }
+
+  // &:nth-of-type(4) {
+  //   border-top: 2px solid #315dbf;
+  // }
+
+  // &:nth-of-type(5) {
+  //   border-top: 2px solid #9b4baf;
+  // }
+
+  // &:nth-of-type(6) {
+  //   border-top: 2px solid #ff006a;
+  // }
+}
+
+@mixin position($color, $text) {
+  border: 1px solid transparent;
+  border-left: 3px solid rgba($color, 0.8);
+  transition: 0.2s;
+  margin-top: 1em;
+  background-color: $gray-light;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+
+  &:hover {
+    box-shadow: 0px 0px 4px 1px $color;
+    transition: 0.2s;
+    border: 1px solid rgba($color, 0.25);
+    border-left: 3px solid $color;
+  }
+
+  > * {
+    color: $text;
+  }
+}
+
+@mixin positionWrapper($color, $text) {
+  margin-top: 2em;
+
+  .activePosition {
+    @include position($color, $text);
+
+    &:hover {
+      -webkit-animation: greenGlow 3s infinite;
+      -moz-animation: greenGlow 3s infinite;
+      -o-animation: greenGlow 3s infinite;
+      animation: greenGlow 3s infinite;
+    }
+  }
+
+  .inactivePosition {
+    @include position($color, $text);
+    &:hover {
+      -webkit-animation: redGlow 3s infinite;
+      -moz-animation: redGlow 3s infinite;
+      -o-animation: redGlow 3s infinite;
+      animation: redGlow 3s infinite;
+    }
+  }
+
+  .positionList {
+    display: flex;
+    justify-content: space-between;
+
+    > h2 {
+      font-family: $font-text;
+      span {
+        color: $color;
+      }
+    }
+  }
+}
+
+.positionWrapper {
+  @include positionWrapper($green, white);
+}
+
+.exitedPositionWrapper {
+  @include positionWrapper($red, $text-gray);
+}
+
+.positionCTA {
+  padding: 2em;
+  display: flex;
+
+  > img {
+    width: 35px !important;
+    height: 35px !important;
+    background-color: white;
+    border-radius: 50%;
+
+    &:not(:last-of-type) {
+      margin-right: 2em;
+    }
+  }
+}
+
+.positionHeader {
+  display: flex;
+  justify-content: space-between;
+
+  > * {
+    margin: auto 0;
+  }
+
+  svg,
+  img {
+    width: 70px;
+    height: 100%;
+  }
+
+  h2 {
+    display: flex;
+    padding: 1em 2em;
+    font-family: $font-text;
+    color: white;
+
+    span {
+      margin-left: 0.5em;
+    }
+
+    > * {
+      margin: auto 0;
+    }
+  }
+}
+
+.position {
+  //   border-radius: 6px;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  background: $gray-light;
+
+  margin-top: 1em;
+}
+
+.positionRange {
+  background: darken($gray-dark, 20%);
+  padding: 1em 0;
+
+  h2 {
+    text-align: center;
+    font-family: $font-text;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: $text-gray-light;
+    padding: 0;
+    padding-bottom: 1em;
+  }
+
+  span {
+    font-family: $font-text;
+  }
+}
+
+.positionStats {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid $gray-light;
+}
+
+.positionStat {
+  padding: 1em 2em;
+  width: 33.33%;
+
+  &:not(:last-child) {
+    border-right: 1px solid $gray-light;
+  }
+
+  h2 {
+    font-family: $font-header;
+    font-size: 12px;
+    color: $text-gray-light;
+    padding: 0;
+  }
+
+  span {
+    font-family: $font-text;
+  }
+}
+
+@mixin rangeWrapper {
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  height: 4px;
+  margin: 0.5em 0;
+  border-radius: 6px;
+}
+
+.inactiveRangeWrapper {
+  background-color: #333;
+  @include rangeWrapper;
+}
+
+.activeRangeWrapper {
+  background-color: $green;
+  @include rangeWrapper;
+}
+
+.negativeRange {
+  width: 15%;
+  display: block;
+  height: inherit;
+  background-color: #333;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+.positiveRange {
+  position: absolute;
+  right: 0;
+  width: 15%;
+  display: block;
+  height: inherit;
+  background-color: #333;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.rangeLimit {
+  display: flex;
+  width: 70%;
+  margin: -3px 15%;
+  height: 10px;
+  border-left: 3px solid white;
+  border-right: 3px solid white;
+  position: absolute;
+
+  .range {
+    margin: 1px auto;
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+    background-color: white;
+  }
+}
+
+.rangeLimitDesc {
+  display: flex;
+  justify-content: space-between;
+  width: 70%;
+  margin: auto;
+}
+
+.positionCreate {
+  display: block;
+  width: fit-content;
+  margin-top: 1em;
+  transition: 0.2s;
+
+  &:hover {
+    transition: 0.2s;
+    span {
+      color: $green;
+    }
+  }
+
+  p {
+    color: $text-gray-light;
+    margin-top: 1em;
+    font-family: $font-text;
+    text-transform: uppercase;
+  }
+
+  span {
+    color: white;
+    display: inline-flex;
+    border-bottom: 3px solid transparent;
+    cursor: default;
+  }
+
+  a {
+    padding: 0;
+    margin-left: 0.5em;
+    margin-top: 1em;
+    font-family: $font-text;
+    text-transform: uppercase;
+    color: #16ceb9;
+    border-bottom: none;
+    width: fit-content;
+
+    &:hover {
+      border: none;
+    }
+  }
+
+  div {
+    display: block;
+    color: $text-gray;
+    font-size: 12px;
+  }
+}

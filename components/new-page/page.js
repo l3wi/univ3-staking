@@ -33,7 +33,7 @@ const Layout = ({ children, title }) => {
         <meta property="og:site_name" content="Uniswap V3 staker" />
         <meta
           property="og:image"
-          content="https://staker.projects.sh/image.png"
+          content="https://staker.projects.sh/meta.png"
         />
       </Head>
       <Alerts />

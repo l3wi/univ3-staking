@@ -1,0 +1,34 @@
+@import "../variables.scss";
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  border: 1px solid #333;
+  margin-top: 2em;
+  width: fit-content;
+  padding: 0.25em;
+  border-radius: 6px;
+  margin: auto;
+
+  button {
+    &:not(:last-of-type) {
+      // margin-right: 2em;
+    }
+  }
+}
+
+.activeTab {
+  background-color: rgba(255, 255, 255, 0.08);
+  font-family: $font-text;
+  text-transform: uppercase;
+  padding: 0.5em 1em;
+  border-radius: 6px;
+}
+
+.tab {
+  background-color: transparent;
+  font-family: $font-text;
+  text-transform: uppercase;
+  padding: 0.5em 1em;
+  border-radius: 6px;
+}
