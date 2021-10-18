@@ -3,7 +3,19 @@ import React from "react";
 import useWeb3 from "../../contexts/useWeb3";
 import style from "../../styles/components/footer.module.scss";
 
-const links = [
+const ribbonLinks = [
+  {
+    label: "App",
+    href: "https://app.ribbon.finance",
+  },
+  {
+    label: "RGP-4",
+    href:
+      "https://snapshot.org/#/rbn.eth/proposal/QmNudMhJmKYdTFVpw58VAejiuDfVfwMyBifye3iPxmcJ3U",
+  },
+];
+
+const personalLinks = [
   {
     label: "github",
     href: "https://github.com/l3wi/univ3-staking",
@@ -20,7 +32,21 @@ const Footer = () => {
   const { block } = useWeb3();
   return (
     <div className={style.footer}>
-      <div></div>
+      <div className={style.links}>
+        {ribbonLinks.map((link) => {
+          return (
+            <Link
+              key={link.label}
+              href={link.href}
+              isExternal={link.isExternal}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {link.label}
+            </Link>
+          );
+        })}
+      </div>
       <div className={style.links}>
         {block > 0 && (
           <Link
@@ -33,7 +59,7 @@ const Footer = () => {
             {block}
           </Link>
         )}
-        {links.map((link) => {
+        {personalLinks.map((link) => {
           return (
             <Link
               key={link.label}

@@ -211,14 +211,16 @@
   padding: 2em;
   display: flex;
 
-  > img {
-    width: 35px !important;
-    height: 35px !important;
-    background-color: white;
-    border-radius: 50%;
+  a {
+    > img {
+      width: 25px !important;
+      height: 25px !important;
+      background-color: white;
+      border-radius: 50%;
+    }
 
     &:not(:last-of-type) {
-      margin-right: 2em;
+      margin-right: 0.5em;
     }
   }
 }
@@ -273,7 +275,6 @@
     font-size: 12px;
     color: $text-gray-light;
     padding: 0;
-    padding-bottom: 1em;
   }
 
   span {
@@ -326,24 +327,46 @@
   @include rangeWrapper;
 }
 
-.negativeRange {
+@mixin externalRange {
   width: 15%;
   display: block;
   height: inherit;
+  display: block;
+  height: inherit;
+  position: absolute;
+  z-index: 200;
+}
+
+.inactiveNegativeRange {
+  @include externalRange;
   background-color: #333;
+  left: 0;
   border-top-left-radius: 6px;
   border-bottom-left-radius: 6px;
 }
 
-.positiveRange {
-  position: absolute;
+.activeNegativeRange {
+  @include externalRange;
+  background-color: $red;
+  left: 0;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+.activePositiveRange {
+  @include externalRange;
+  background-color: $red;
   right: 0;
-  width: 15%;
-  display: block;
-  height: inherit;
-  background-color: #333;
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
+}
+
+.inactivePositiveRange {
+  @include externalRange;
+  background-color: #333;
+  right: 0;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
 }
 
 .rangeLimit {
@@ -354,9 +377,12 @@
   border-left: 3px solid white;
   border-right: 3px solid white;
   position: absolute;
+  overflow: hidden;
 
   .range {
-    margin: 1px auto;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    margin-right: auto;
     border-radius: 50%;
     width: 8px;
     height: 8px;
@@ -369,6 +395,11 @@
   justify-content: space-between;
   width: 70%;
   margin: auto;
+  font-size: 12px;
+
+  &:first-of-type {
+    color: $text-gray-light;
+  }
 }
 
 .positionCreate {

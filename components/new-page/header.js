@@ -11,24 +11,11 @@ import { useWeb3 } from "../../contexts/useWeb3";
 import UserAddress from "./wallet";
 import style from "../../styles/components/header.module.scss";
 
-const links = [
-  {
-    label: "App",
-    href: "https://app.ribbon.finance",
-  },
-  {
-    label: "RGP-4",
-    href:
-      "https://snapshot.org/#/rbn.eth/proposal/QmNudMhJmKYdTFVpw58VAejiuDfVfwMyBifye3iPxmcJ3U",
-  },
-];
-
 const Header = () => {
   const { account, balance } = useWeb3();
   return (
     <div className={style.header}>
       <Logo />
-      <Directory />
       <Wallet />
     </div>
   );

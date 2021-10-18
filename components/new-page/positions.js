@@ -129,7 +129,6 @@ const ActivePositions = ({ positions = [], pool }) => {
 
       <div>
         {positions.map((position, i) => {
-          console.log("??", positions);
           return <PositionCard key={i} position={position} pool={pool} />;
         })}
         <div className={style.positionCreate}>
@@ -158,7 +157,7 @@ const ExitedPositions = ({ positions = [], pool }) => {
         <h2>
           POSITIONS - <span>INACTIVE</span> - {positions.length || 0}
         </h2>
-        <span>Show rewards in</span>
+        {/* <span>Show rewards in</span> */}
       </div>
 
       <div>
@@ -174,6 +173,12 @@ const ExitedPositions = ({ positions = [], pool }) => {
 };
 
 const PositionCard = ({ position, pool }) => {
+  const rangePercentage =
+    (Math.abs(pool.tick - position.tickLower) /
+      Math.abs(position.tickUpper - position.tickLower)) *
+    100;
+  const inRange = rangePercentage > 0 && rangePercentage < 100;
+
   return (
     <div
       className={
@@ -186,32 +191,80 @@ const PositionCard = ({ position, pool }) => {
           <span>TOKEN #{position.id}</span>
         </h2>
         <div className={style.positionCTA}>
-          <img src={"/etherscan.svg"} />
-          <img src={"/uni.svg"} />
+          <Link
+            href={`https://etherscan.io/token/0xc36442b4a4522e871399cd717abdd847ab11fe88?a=${position.id}`}
+            isExternal={true}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <img src={"/etherscan.svg"} />
+          </Link>
+          <Link
+            href={`https://app.uniswap.org/#/pool/${position.id}`}
+            isExternal={true}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <img src={"/uni.svg"} />
+          </Link>
+          <Link
+            href={`https://revert.finance/#/uniswap-position/${position.id}`}
+            isExternal={true}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <img src={"/revert.png"} />
+          </Link>
         </div>
       </div>
       <div className={style.positionRange}>
-        <h2>Price Range</h2>
         <div className={style.rangeLimitDesc}>
           <span>MIN</span>
+          <h2
+            style={{
+              color: !position.staked
+                ? "rgb(172, 172, 171)"
+                : inRange
+                ? "#16ceb9"
+                : "#fc0a54",
+            }}
+          >
+            {inRange ? "IN RANGE" : "OUT OF RANGE"}
+          </h2>
           <span>MAX</span>
         </div>
         <div
-          className={[
-            position.staked
-              ? style.activeRangeWrapper
-              : style.inactiveRangeWrapper,
-          ]}
+          className={
+            inRange ? style.activeRangeWrapper : style.inactiveRangeWrapper
+          }
         >
-          <span className={style.negativeRange}></span>
-          <span className={style.positiveRange}></span>
+          <span
+            className={
+              rangePercentage < 0
+                ? style.activeNegativeRange
+                : style.inactiveNegativeRange
+            }
+          ></span>
           <div className={style.rangeLimit}>
-            {position.staked && <span className={style.range}></span>}
+            {true && (
+              <span
+                className={style.range}
+                style={{ marginLeft: `${rangePercentage}%` }}
+              ></span>
+            )}
           </div>
+          <span
+            className={
+              rangePercentage > 100
+                ? style.activePositiveRange
+                : style.inactivePositiveRange
+            }
+          ></span>
         </div>
         <div className={style.rangeLimitDesc}>
-          <span>515</span>
-          <span>1400</span>
+          <span>{position.tickLower}</span>
+          <span>{pool.tick}</span>
+          <span>{position.tickUpper}</span>
         </div>
       </div>
       <div className={style.positionStats}>

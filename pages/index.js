@@ -91,8 +91,6 @@ export default function Home() {
     setPool({ ...data, apy });
   }, [account, block]);
 
-  console.log(positions);
-
   const tabs = [
     {
       name: "Positions",
