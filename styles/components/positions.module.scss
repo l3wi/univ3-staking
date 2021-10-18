@@ -95,7 +95,7 @@
 
 .stat {
   padding: 1em;
-  width: 25%;
+  flex-grow: 1;
   border-radius: 6px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
@@ -149,6 +149,7 @@
   background-color: $gray-light;
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
+  flex: 1;
 
   &:hover {
     box-shadow: 0px 0px 4px 1px $color;
@@ -163,7 +164,7 @@
 }
 
 @mixin positionWrapper($color, $text) {
-  margin-top: 2em;
+  margin-top: 3em;
 
   .activePosition {
     @include position($color, $text);
@@ -189,11 +190,21 @@
   .positionList {
     display: flex;
     justify-content: space-between;
+    font-family: $font-text;
+    text-transform: uppercase;
 
     > h2 {
-      font-family: $font-text;
       span {
         color: $color;
+      }
+    }
+
+    a {
+      cursor: pointer;
+      color: $text-gray-light;
+
+      &:hover {
+        color: white;
       }
     }
   }
@@ -228,6 +239,7 @@
 .positionHeader {
   display: flex;
   justify-content: space-between;
+  border-bottom: 1px solid $gray-light;
 
   > * {
     margin: auto 0;
@@ -286,11 +298,12 @@
   display: flex;
   justify-content: space-between;
   border-top: 1px solid $gray-light;
+  flex: 1;
 }
 
 .positionStat {
   padding: 1em 2em;
-  width: 33.33%;
+  flex-grow: 1;
 
   &:not(:last-child) {
     border-right: 1px solid $gray-light;
@@ -305,6 +318,25 @@
 
   span {
     font-family: $font-text;
+  }
+}
+
+.positionFooters {
+  text-align: center;
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid $gray-light;
+
+  div {
+    text-transform: uppercase;
+    font-family: $font-text;
+    cursor: pointer;
+    color: $text-gray-light;
+
+    &:hover {
+      color: white;
+    }
   }
 }
 
@@ -387,6 +419,7 @@
     width: 8px;
     height: 8px;
     background-color: white;
+    box-shadow: 0px 0px 10px 3px #333;
   }
 }
 

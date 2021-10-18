@@ -1,37 +1,45 @@
-import { ethers } from 'ethers'
+import { ethers } from "ethers";
 // Set provider for pre-render operations where no wallet is present.
 // let provider = new ethers.providers.JsonRpcProvider(atob(ETH_NODE))
 // export let web3 = new ethers.providers.getDefaultProvider()
 
-export const chainID = process.env.CHAIN_ID ? process.env.CHAIN_ID : 1
-console.log('Chain ID: ', chainID)
+export const IncentiveKey = [
+  "0x6123B0049F904d730dB3C36a31167D9d4121fA6B",
+  "0x94981F69F7483AF3ae218CbfE65233cC3c60d93a",
+  1633694400,
+  1638878400,
+  "0xDAEada3d210D2f45874724BeEa03C7d4BBD41674",
+];
+
+export const chainID = process.env.CHAIN_ID ? process.env.CHAIN_ID : 1;
+console.log("Chain ID: ", chainID);
 
 export let web3 = new ethers.providers.InfuraProvider(
-  chainID === 1 ? 'homestead' : 'rinkeby',
+  chainID === 1 ? "homestead" : "rinkeby",
   process.env.INFURA
-)
+);
 
-const MaxUint = ethers.constants.MaxUint256
-export const zeroAddress = ethers.constants.AddressZero
+const MaxUint = ethers.constants.MaxUint256;
+export const zeroAddress = ethers.constants.AddressZero;
 
 export const registerProvider = (wallet) => {
   if (wallet) {
-    console.log('Using Wallet provider')
+    console.log("Using Wallet provider");
     try {
-      web3 = new ethers.providers.Web3Provider(wallet)
-      wallet.on('chainChanged', (_chainId) => window.location.reload())
+      web3 = new ethers.providers.Web3Provider(wallet);
+      wallet.on("chainChanged", (_chainId) => window.location.reload());
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   } else if (window && window.ethereum) {
-    console.log('Using Window provider')
-    web3 = new ethers.providers.Web3Provider(window.ethereum)
-    window.ethereum.on('chainChanged', (_chainId) => window.location.reload())
+    console.log("Using Window provider");
+    web3 = new ethers.providers.Web3Provider(window.ethereum);
+    window.ethereum.on("chainChanged", (_chainId) => window.location.reload());
   }
-}
+};
 
 export const setApproval = async (contract, spender, amount) => {
-  const signer = web3.getSigner()
+  const signer = web3.getSigner();
   const erc20 = new ethers.Contract(
     contract,
     [
@@ -39,34 +47,34 @@ export const setApproval = async (contract, spender, amount) => {
         constant: false,
         inputs: [
           {
-            name: '_spender',
-            type: 'address'
+            name: "_spender",
+            type: "address",
           },
           {
-            name: '_value',
-            type: 'uint256'
-          }
+            name: "_value",
+            type: "uint256",
+          },
         ],
-        name: 'approve',
+        name: "approve",
         outputs: [
           {
-            name: '',
-            type: 'bool'
-          }
+            name: "",
+            type: "bool",
+          },
         ],
         payable: false,
-        stateMutability: 'nonpayable',
-        type: 'function'
-      }
+        stateMutability: "nonpayable",
+        type: "function",
+      },
     ],
     signer
-  )
+  );
   try {
-    return await erc20.approve(spender, amount ? amount : MaxUint)
+    return await erc20.approve(spender, amount ? amount : MaxUint);
   } catch (error) {
-    return error
+    return error;
   }
-}
+};
 
 export const fetchBalance = async (contract, account, digits, fixed) => {
   const erc20 = new ethers.Contract(
@@ -76,31 +84,31 @@ export const fetchBalance = async (contract, account, digits, fixed) => {
         constant: true,
         inputs: [
           {
-            name: '_owner',
-            type: 'address'
-          }
+            name: "_owner",
+            type: "address",
+          },
         ],
-        name: 'balanceOf',
+        name: "balanceOf",
         outputs: [
           {
-            name: 'balance',
-            type: 'uint256'
-          }
+            name: "balance",
+            type: "uint256",
+          },
         ],
         payable: false,
-        stateMutability: 'view',
-        type: 'function'
-      }
+        stateMutability: "view",
+        type: "function",
+      },
     ],
     web3
-  )
+  );
 
-  const rawNum = await erc20.balanceOf(account)
+  const rawNum = await erc20.balanceOf(account);
   const normalised = parseFloat(
     ethers.utils.formatUnits(rawNum, digits || 18)
-  ).toFixedNoRounding(fixed ? fixed : 2)
-  return normalised
-}
+  ).toFixedNoRounding(fixed ? fixed : 2);
+  return normalised;
+};
 
 export const fetchAllowance = async (
   account,
@@ -116,45 +124,45 @@ export const fetchAllowance = async (
         constant: true,
         inputs: [
           {
-            name: '_owner',
-            type: 'address'
+            name: "_owner",
+            type: "address",
           },
           {
-            name: '_spender',
-            type: 'address'
-          }
+            name: "_spender",
+            type: "address",
+          },
         ],
-        name: 'allowance',
+        name: "allowance",
         outputs: [
           {
-            name: '',
-            type: 'uint256'
-          }
+            name: "",
+            type: "uint256",
+          },
         ],
         payable: false,
-        stateMutability: 'view',
-        type: 'function'
-      }
+        stateMutability: "view",
+        type: "function",
+      },
     ],
     web3
-  )
+  );
 
-  const rawNum = await erc20.allowance(account, spender)
+  const rawNum = await erc20.allowance(account, spender);
   const normalised = parseFloat(
     ethers.utils.formatUnits(rawNum, digits || 18)
-  ).toFixedNoRounding(fixed ? fixed : 4)
-  return normalised
-}
+  ).toFixedNoRounding(fixed ? fixed : 4);
+  return normalised;
+};
 
 export const getSymbol = async (contract) => {
-  const cont = new ethers.Contract(contract.address, contract.abi, web3)
-  return await cont.symbol({ gasLimit: 100000 })
-}
+  const cont = new ethers.Contract(contract.address, contract.abi, web3);
+  return await cont.symbol({ gasLimit: 100000 });
+};
 export const getSupply = async (contract, digits, fixed) => {
-  const cont = new ethers.Contract(contract.address, contract.abi, web3)
-  const rawNum = await cont.totalSupply()
+  const cont = new ethers.Contract(contract.address, contract.abi, web3);
+  const rawNum = await cont.totalSupply();
   const normalised = parseFloat(
     ethers.utils.formatUnits(rawNum, digits || 18)
-  ).toFixedNoRounding(fixed ? fixed : 4)
-  return normalised
-}
+  ).toFixedNoRounding(fixed ? fixed : 4);
+  return normalised;
+};

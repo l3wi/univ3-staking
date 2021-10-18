@@ -1,0 +1,30 @@
+@import "../variables.scss";
+
+.faqs {
+  margin: auto;
+  margin-top: 2em;
+  max-width: 800px;
+
+  h2 {
+    font-family: $font-text;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  > div {
+    background: $gray-light;
+    border-radius: 6px;
+    border: none;
+    margin-bottom: 1em;
+
+    button {
+      padding: 1em !important;
+    }
+
+    > div {
+      padding: 1em;
+      background: lighten($gray-light, 10%);
+      font-family: $font-header;
+    }
+  }
+}
