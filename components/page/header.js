@@ -31,10 +31,10 @@ const Header = () => {
           <Ribbon w={64} h={64} />
           <Box ml="2">
             <Heading size="lg" mb={2}>
-              Ribbon LP Staking
+              Solace LP Staking
             </Heading>
             <Text fontSize="lg" color="gray.500">
-              Stake your RBN/ETH LP position
+              Stake your SOLACE/USDC LP position
             </Text>
           </Box>
         </Flex>

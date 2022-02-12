@@ -37,7 +37,7 @@ import {
 
 import { comma } from '../utils/helpers'
 
-// RBN PROGRAM
+// SOLACE PROGRAM
 const IncentiveKey = [
   '0x6123B0049F904d730dB3C36a31167D9d4121fA6B',
   '0x94981F69F7483AF3ae218CbfE65233cC3c60d93a',
@@ -93,18 +93,20 @@ export default function Home() {
     return upper > tick && tick > lower
   }
 
-  useEffect(async () => {
-    if (account) {
-      const lpPositions = await findNFTByPool(account, IncentiveKey)
-      setPositions(lpPositions)
-    }
-    /// Calculate APY
-    const data = await getPoolData(IncentiveKey[1], IncentiveKey[0])
-    const emissionsPerSecond =
-      programEmissions / (IncentiveKey[3] - IncentiveKey[2])
-    const apy =
-      ((emissionsPerSecond * data.token * secondsInAYear) / data.tvl) * 100
-    setPool({ ...data, apy })
+  useEffect(() => {
+    (async () => {
+      if (account) {
+        const lpPositions = await findNFTByPool(account, IncentiveKey)
+        setPositions(lpPositions)
+      }
+      /// Calculate APY
+      const data = await getPoolData(IncentiveKey[1], IncentiveKey[0])
+      const emissionsPerSecond =
+        programEmissions / (IncentiveKey[3] - IncentiveKey[2])
+      const apy =
+        ((emissionsPerSecond * data.token * secondsInAYear) / data.tvl) * 100
+      setPool({ ...data, apy })
+    })()
   }, [account, block])
 
   return (
@@ -119,7 +121,7 @@ export default function Home() {
         >
           <Flex w="100%" maxW={['100%', 960]} mb={8}>
             <Stat>
-              <StatLabel>RBN Price</StatLabel>
+              <StatLabel>SOLACE Price</StatLabel>
               <StatNumber>
                 {pool.tvl ? `$${commas(pool.token)}` : '$0.0'}
               </StatNumber>

@@ -19,16 +19,16 @@ const Layout = ({ children, title }) => {
     >
       <Head>
         <title>{title ? title + ` - UniV3 Staker` : `UniV3 Staker`}</title>
-        <link rel="icon" href="/favicon.png" />
+        <link rel="icon" href="/favicon.ico" />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:creator" content="@lewifree" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://staker.projects.sh" />
-        <meta property="og:title" content="Ribbon (RBN) staker" />
+        <meta property="og:title" content="SOLACE Staker" />
         <meta
           property="og:description"
-          content="A staking UI for the Ribbon reward program."
+          content="A staking UI for the Solace reward program."
         />
         <meta property="og:site_name" content="Uniswap V3 staker" />
         <meta

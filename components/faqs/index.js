@@ -30,13 +30,13 @@ export default function FAQs() {
             </AccordionButton>
           </h2>
           <AccordionPanel pb={4}>
-            <Text>{`Liquidity Providing (LP) is a new allows everyone to become a market maker. 
-            It's unique to Automated Market Makers (AMMs) like Uniswap & Curve. When you LP you 
+            <Text>{`Liquidity Providing (LP) is a new allows everyone to become a market maker.
+            It's unique to Automated Market Makers (AMMs) like Uniswap & Curve. When you LP you
             are providing tokens to be used as a counter-party when someone wants to buy or sell a token. `}</Text>
             <br />
-            <Text>{`In exchange for providing liquidity, LPs receive fees on each trade. This can 
-            be very profitable for LPs on token pairs with high volume. However it can be risky 
-            to be an LP as high fluctuations in price may mean that you end up with less value in 
+            <Text>{`In exchange for providing liquidity, LPs receive fees on each trade. This can
+            be very profitable for LPs on token pairs with high volume. However it can be risky
+            to be an LP as high fluctuations in price may mean that you end up with less value in
             the long run, even when accounting for trading fees.`}</Text>
           </AccordionPanel>
         </AccordionItem>
@@ -64,7 +64,7 @@ export default function FAQs() {
           <h2>
             <AccordionButton>
               <Box flex="1" textAlign="left" fontWeight="600">
-                How do I stake my RBN tokens?
+                How do I stake my SOLACE tokens?
               </Box>
               <AccordionIcon />
             </AccordionButton>
@@ -79,7 +79,7 @@ export default function FAQs() {
                 <Link
                   href="https://app.uniswap.org/#/add/ETH/0x6123B0049F904d730dB3C36a31167D9d4121fA6B/10000"
                   isExternal
-                >{`Uniswap v3 "Add Liquidity" page for RBN & ETH.`}</Link>
+                >{`Uniswap v3 "Add Liquidity" page for SOLACE & USDC.`}</Link>
               </ListItem>
               <ListItem>{`Select a range for your liquidity and supply the tokens.`}</ListItem>
               <ListItem>{`Click "Connect Wallet" and choose a wallet provider.`}</ListItem>
@@ -117,15 +117,15 @@ export default function FAQs() {
           <h2>
             <AccordionButton>
               <Box flex="1" textAlign="left" fontWeight="600">
-                I don't see my Uniswap LP position on the Uniswap website anymore. Why?
+                {"I don't see my Uniswap LP position on the Uniswap website anymore. Why?"}
               </Box>
               <AccordionIcon />
             </AccordionButton>
           </h2>
           <AccordionPanel pb={4}>
-            <Text>When you stake your NFT, your NFT will be temporarily held on the Staker contract. This gives it the ability to earn RBN rewards for providing liquidity. When you Exit, the NFT will be returned back to your wallet.</Text>
+            <Text>When you stake your NFT, your NFT will be temporarily held on the Staker contract. This gives it the ability to earn SOLACE rewards for providing liquidity. When you Exit, the NFT will be returned back to your wallet.</Text>
             <br/>
-            <Text>To see details of the position, click the 'Token ID' link on the left-hand side of the position.</Text>
+            <Text>{"To see details of the position, click the 'Token ID' link on the left-hand side of the position."}</Text>
           </AccordionPanel>
         </AccordionItem>
         <AccordionItem>
