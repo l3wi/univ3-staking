@@ -1,11 +1,11 @@
 import React from 'react'
-import { Image } from '@chakra-ui/image'
+import Image from 'next/image'
 import { IconButton } from '@chakra-ui/button'
 import { FiSun, FiMoon } from 'react-icons/fi'
 import { useColorMode, useColorModeValue } from '@chakra-ui/color-mode'
 import { Box, Flex, LinkBox, LinkOverlay } from '@chakra-ui/layout'
 import { Heading, Text, Center } from '@chakra-ui/react'
-import Ribbon from '../ribbon'
+import Logo from '../../public/logo.svg'
 import { useWeb3 } from '../../contexts/useWeb3'
 
 import UserAddress from './wallet'
@@ -28,7 +28,7 @@ const Header = () => {
         maxW={{ base: '100%', md: 960 }}
       >
         <Flex width={['auto', 'auto']}>
-          <Ribbon w={64} h={64} />
+          <Image src={Logo} alt='InsureDAO' width={64} height={64} />
           <Box ml="2">
             <Heading size="lg" mb={2}>
               Ribbon LP Staking
