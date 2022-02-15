@@ -30,7 +30,7 @@ export default function WalletModal() {
       <Button
         onClick={() => (account ? null : onOpen())}
         variant="solid"
-        colorScheme="red"
+        colorScheme="blue"
         boxShadow="md"
         borderRadius="lg"
       >

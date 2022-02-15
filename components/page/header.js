@@ -7,6 +7,7 @@ import { Box, Flex, LinkBox, LinkOverlay } from '@chakra-ui/layout'
 import { Heading, Text, Center } from '@chakra-ui/react'
 import Logo from '../../public/logo.svg'
 import { useWeb3 } from '../../contexts/useWeb3'
+import { APP } from '../../config'
 
 import UserAddress from './wallet'
 
@@ -31,10 +32,10 @@ const Header = () => {
           <Image src={Logo} alt='InsureDAO' width={64} height={64} />
           <Box ml="2">
             <Heading size="lg" mb={2}>
-              Ribbon LP Staking
+              {APP.title}
             </Heading>
             <Text fontSize="lg" color="gray.500">
-              Stake your RBN/ETH LP position
+              {APP.subTitle}
             </Text>
           </Box>
         </Flex>
