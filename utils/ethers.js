@@ -16,7 +16,7 @@ export const zeroAddress = ethers.constants.AddressZero
 
 export const registerProvider = (wallet) => {
   if (wallet) {
-    console.log('Using Wallet provider')
+    // console.log('Using Wallet provider')
     try {
       web3 = new ethers.providers.Web3Provider(wallet)
       wallet.on('chainChanged', (_chainId) => window.location.reload())
@@ -24,7 +24,7 @@ export const registerProvider = (wallet) => {
       console.log(error)
     }
   } else if (window && window.ethereum) {
-    console.log('Using Window provider')
+    // console.log('Using Window provider')
     web3 = new ethers.providers.Web3Provider(window.ethereum)
     window.ethereum.on('chainChanged', (_chainId) => window.location.reload())
   }
