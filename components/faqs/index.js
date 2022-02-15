@@ -22,8 +22,8 @@ export default function FAQs() {
         Frequently Asked Questions
       </Heading>
       <Accordion w="full" allowToggle>
-        {FAQ.map(item => (
-          <AccordionItem>
+        {FAQ.map((item, i) => (
+          <AccordionItem key={`faq-${i}`}>
             <h2>
               <AccordionButton>
                 <Box flex="1" textAlign="left" fontWeight="600">
