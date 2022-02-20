@@ -4,6 +4,7 @@ import Header from './header'
 import Alerts from './alerts'
 import React from 'react'
 import Head from 'next/head'
+import { APP } from '../../config'
 
 import { useColorModeValue } from '@chakra-ui/color-mode'
 
@@ -22,18 +23,17 @@ const Layout = ({ children, title }) => {
         <link rel="icon" href="/favicon.png" />
 
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:creator" content="@lewifree" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://staker.projects.sh" />
-        <meta property="og:title" content="Ribbon (RBN) staker" />
+        <meta property="og:url" content="https://staker.insuredao.fi" />
+        <meta property="og:title" content={APP.title} />
         <meta
           property="og:description"
           content="A staking UI for the Ribbon reward program."
         />
-        <meta property="og:site_name" content="Uniswap V3 staker" />
+        <meta property="og:site_name" content={APP.subTitle} />
         <meta
           property="og:image"
-          content="https://staker.projects.sh/image.png"
+          content="/ogimage.png"
         />
       </Head>
       <Alerts />
