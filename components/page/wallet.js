@@ -33,6 +33,7 @@ export default function WalletModal() {
         colorScheme="blue"
         boxShadow="md"
         borderRadius="lg"
+        style={{ backgroundColor: '#0b61f4', color: '#ffffff' }}
       >
         <Text fontSize="sm" color="white.100">
           {account ? `` : 'Connect Wallet'}
