@@ -22,7 +22,7 @@ export const FAQ = [
   },
   {
     title: "How do I stake my INSURE tokens?",
-    text: 'In order to participate in the rewards program you must provide liquidity to a specific pool and then stake it in the staking contract.<br />The steps are as follows:<br /><br /><ol><li>Go to the <a href="https://app.uniswap.org/#/add/ETH/0x6123B0049F904d730dB3C36a31167D9d4121fA6B/10000" target="_blank" rel="nofollow"> Uniswap v3 "Add Liquidity" page for INSURE & ETH.</a></li><li>Select a range for your liquidity and supply the tokens.</li><li>Click "Connect Wallet" and choose a wallet provider.</li><li>Your LP NFTs will populate in the UI, select "Deposit" to transfer it ot the staking contract</li><li>Once the token is transfered, you must select "Stake" to start earning rewards.</li></ol>',
+    text: 'In order to participate in the rewards program you must provide liquidity to a specific pool and then stake it in the staking contract.<br />The steps are as follows:<br /><br /><ol><li>Go to the <a href="https://app.uniswap.org/#/add/ETH/0xd83ae04c9ed29d6d3e6bf720c71bc7beb424393e/10000" target="_blank" rel="nofollow"> Uniswap v3 "Add Liquidity" page for INSURE & ETH.</a></li><li>Select a range for your liquidity and supply the tokens.</li><li>Click "Connect Wallet" and choose a wallet provider.</li><li>Your LP NFTs will populate in the UI, select "Deposit" to transfer it ot the staking contract</li><li>Once the token is transfered, you must select "Stake" to start earning rewards.</li></ol>',
   },
   {
     title: "How do I claim my rewards?",
