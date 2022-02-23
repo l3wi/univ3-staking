@@ -39,7 +39,7 @@ import { comma } from '../utils/helpers'
 
 import { IncentiveKey } from '../config'
 
-const programEmissions = 234500 //need change
+const programEmissions = 472500 //need change
 const secondsInAYear = 31540000
 
 export default function Home() {
