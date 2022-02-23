@@ -39,7 +39,7 @@ import { comma } from '../utils/helpers'
 
 import { IncentiveKey } from '../config'
 
-const programEmissions = 10000000
+const programEmissions = 234500 //need change
 const secondsInAYear = 31540000
 
 export default function Home() {
@@ -225,10 +225,10 @@ export default function Home() {
                       </Td>
                       <Td fontSize="sm" w="fit-content">
                         <Box>
-                          {commas(position.fees0)} <b>{pool.symbol}</b>
+                          {commas(position.fees1)} <b>{pool.symbol}</b>
                         </Box>
                         <Box>
-                          {commas(position.fees1)} <b>WETH</b>
+                          {commas(position.fees0)} <b>WETH</b>
                         </Box>
                       </Td>
 
