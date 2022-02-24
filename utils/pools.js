@@ -124,7 +124,8 @@ export const claimReward = async (tokenId, address, amount, program) => {
 
 // Unstake, Claim & Exit
 export const exitPool = async (tokenId, address, amount, program) => {
-  console.log(amount)
+
+  console.log("exit",tokenId, amount, program)
 
   let iface = new ethers.utils.Interface(v3Staker.abi)
   const unstakeData = iface.encodeFunctionData('unstakeToken', [
@@ -140,14 +141,14 @@ export const exitPool = async (tokenId, address, amount, program) => {
   const withdrawData = iface.encodeFunctionData('withdrawToken', [
     tokenId,
     address,
-    []
+   '0x0000000000000000000000000000000000000000000000000000000000000000'
   ])
 
   const signer = web3.getSigner()
   const staking = new ethers.Contract(v3Staker.address, v3Staker.abi, signer)
 
   // Estimate & Bump gasLimit by 1.2x
-  const gas = await manager.estimateGas.multicall([approveData, transferData])
+  const gas = await staking.estimateGas.multicall([unstakeData, claimData,withdrawData])
   const gasLimit = Math.ceil(gas.toNumber() * 1.2)
 
   const tx = await staking.multicall([unstakeData, claimData, withdrawData], {
