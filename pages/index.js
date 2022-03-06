@@ -37,13 +37,13 @@ import {
 
 import { comma } from '../utils/helpers'
 
-// RBN PROGRAM
+// SWIV PROGRAM
 const IncentiveKey = [
-  '0x6123B0049F904d730dB3C36a31167D9d4121fA6B',
-  '0x94981F69F7483AF3ae218CbfE65233cC3c60d93a',
+  '0x6123B0049F904d730dB3C36a31167D9d4121fA6B', // Token contract
+  '0x94981F69F7483AF3ae218CbfE65233cC3c60d93a', // Uniswap v3 token pool
   1633694400,
   1638878400,
-  '0xDAEada3d210D2f45874724BeEa03C7d4BBD41674'
+  '0xDAEada3d210D2f45874724BeEa03C7d4BBD41674' // Multisig
 ]
 
 const programEmissions = 10000000
@@ -59,7 +59,7 @@ export default function Home() {
   const deposit = async (id) => {
     try {
       const tx = await depositStakeNFT(id, account, IncentiveKey)
-      watchTx(tx.hash, 'Depositing NFT')
+      watchTx(tx.hash, 'Depositing LP')
     } catch (error) {
       addAlert('fail', 'Program not active. Try later')
     }
@@ -67,13 +67,13 @@ export default function Home() {
 
   const withdraw = async (id) => {
     const tx = await withdrawNFT(id, account)
-    watchTx(tx.hash, 'Withdrawing NFT')
+    watchTx(tx.hash, 'Withdrawing LP')
   }
 
   const stake = async (id) => {
     try {
       const tx = await stakeNFT(id, IncentiveKey)
-      watchTx(tx.hash, 'Staking NFT')
+      watchTx(tx.hash, 'Staking LP')
     } catch (error) {
       addAlert('fail', 'Program not active. Try later')
     }
@@ -119,7 +119,7 @@ export default function Home() {
         >
           <Flex w="100%" maxW={['100%', 960]} mb={8}>
             <Stat>
-              <StatLabel>RBN Price</StatLabel>
+              <StatLabel>SWIV Price</StatLabel>
               <StatNumber>
                 {pool.tvl ? `$${commas(pool.token)}` : '$0.0'}
               </StatNumber>

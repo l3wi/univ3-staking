@@ -1,26 +1,7 @@
+import * as swivelImage from '../public/favicon.png';
+
 export default function Ribbon({ w, h }) {
   return (
-    <svg
-      width={w ? w : 96}
-      height={h ? h : 96}
-      viewBox="0 0 96 96"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <g clipPath="url(#clip0)">
-        <circle cx="48" cy="48" r="48" fill="#FF385C" />
-        <path
-          d="M3 71.9068L47.8065 25L71.61 49.5036L47.5 75.5"
-          stroke="white"
-          strokeWidth="6"
-          strokeLinecap="square"
-        />
-      </g>
-      <defs>
-        <clipPath id="clip0">
-          <rect width="96" height="96" rx="48" fill="white" />
-        </clipPath>
-      </defs>
-    </svg>
-  )
-}
+    <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50.05 90"><defs><style>.cls-1{fill-rule:evenodd;}</style></defs><path class="cls-1" d="M36.89,39.14a16.79,16.79,0,1,1,23.75,0,3.73,3.73,0,0,0,5.28,5.28,24.26,24.26,0,1,0-34.31,0L51,63.83a3.73,3.73,0,0,0,5.28-5.27Z" transform="translate(-22.97 -3)"/><path class="cls-1" d="M59.11,56.86a16.79,16.79,0,1,1-23.75,0,3.73,3.73,0,0,0-5.28-5.28,24.26,24.26,0,1,0,34.31,0L45,32.17a3.73,3.73,0,0,0-5.28,5.27Z" transform="translate(-22.97 -3)"/></svg>
+    );
+  }
