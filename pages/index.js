@@ -43,7 +43,7 @@ const IncentiveKey = [
   '0x94981F69F7483AF3ae218CbfE65233cC3c60d93a', // Uniswap v3 token pool
   1633694400,
   1638878400,
-  '0xDAEada3d210D2f45874724BeEa03C7d4BBD41674' // Multisig
+  '0xDAEada3d210D2f45874724BeEa03C7d4BBD41674' // Multisig Refund Address
 ]
 
 const programEmissions = 10000000
