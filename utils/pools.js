@@ -217,13 +217,10 @@ export const findNFTByPool = async (address, program) => {
 
   // get all NFT Data data
   console.log('before')
-  console.log(nftList)
   let nftData = []
 
   // loop through nftList array
-
   for (var i = 0; i < nftList.length; i++) {
-    console.log(nftList[i])
     nftData.push(await v3Manger.positions(nftList[i].id))
   }
   console.log('after')
@@ -251,28 +248,28 @@ export const findNFTByPool = async (address, program) => {
     .filter((item) => item)
 
 
-  console.log(poolNFTs)
   // Query the staker to get the owner of the NFTs
-  const staker = new ethers.Contract(v3Staker.address, v3Staker.abi)
+  const staker = new Contract(v3Staker.address, v3Staker.abi)
+
+  var activeNFTCalls = []
 
   for (var i = 0; i < poolNFTs.length; i++) {
-    poolNFTs[i].owner = await staker.deposits(poolNFTs[i].id)
+    console.log(poolNFTs[i].id)
+    activeNFTCalls[i] = await staker.deposits(poolNFTs[i].id)
   }
-
-  const activeNFTCalls = poolNFTs.map((item) => staker.deposits(item.id))
 
   console.log (activeNFTCalls)
 
   let activeNFT = []
 
-  // for (var i = 0; i < activeNFTCalls.length; i++) {
-  //   console.log(activeNFTCalls[i])
-  //   activeNFT.push(await v3Manger.positions(nftList[i].id))
-  // } 
+  for (var i = 0; i < activeNFTCalls.length; i++) {
+    console.log(activeNFTCalls[i])
+    activeNFT.push(await v3Manger.positions(activeNFTCalls[i].params[0]))
+  } 
 
   // const activeNFT = await ethcallProvider.all(activeNFTCalls)
 
-  console.log(activeNFT)
+  console.log('activenft', activeNFT)
   // Filter out the NFTs that aren't owned by the user account
   const userNFTs = activeNFT
     .map((pos, i) => {
@@ -285,6 +282,8 @@ export const findNFTByPool = async (address, program) => {
       }
     })
     .filter((item) => item)
+
+  console.log('userNFTs', userNFTs)
 
   const stakingSingle = new ethers.Contract(
     v3Staker.address,
