@@ -144,12 +144,15 @@ export const exitPool = async (tokenId, address, amount, program) => {
   const staking = new ethers.Contract(v3Staker.address, v3Staker.abi, signer);
 
   // Estimate & Bump gasLimit by 1.2x
-  const gas = await manager.estimateGas.multicall([approveData, transferData]);
+  console.log('before gas estimate');
+  const gas = await staking.estimateGas.multicall([unstakeData, claimData, withdrawData]);
   const gasLimit = Math.ceil(gas.toNumber() * 1.2);
+  console.log('after gas estimate');
 
   const tx = await staking.multicall([unstakeData, claimData, withdrawData], {
     gasLimit
   });
+  console.log('after multicall');
   return tx;
 };
 

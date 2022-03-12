@@ -41,7 +41,7 @@ import { comma } from '../utils/helpers'
 const IncentiveKey = [
   '0x513d0A719A9EB5fEEC02C0433EBa179F2A7E245C', // Token contract
   '0xB1938D91e072bc31Bda2134865cB6b869aA82875', // Uniswap v3 token pool
-  1647105630,
+  1647115515,
   1647205617,
   '0x3f60008Dfd0EfC03F476D9B489D6C5B13B3eBF2C' // Multisig Refund Address
 ]
