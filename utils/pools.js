@@ -231,7 +231,7 @@ export const findNFTByPool = async (address, program) => {
   //   let liquidity = nftData[i][7]
   //   let token0 = nftData[i][2]
   //   let token1 = nftData[i][3]
-  //   if (token0 == a && token1 == b && liquidity) > 0 {
+  //   if (token0 == a && token1 == b && liquidity > 0) {
   //     poolNFTs.push(nftList[i])
   //   }
   // }
@@ -265,11 +265,10 @@ export const findNFTByPool = async (address, program) => {
   for (var i = 0; i < activeNFTCalls.length; i++) {
     console.log(activeNFTCalls[i])
     activeNFT.push(await v3Manger.positions(activeNFTCalls[i].params[0]))
-  } 
-
-  // const activeNFT = await ethcallProvider.all(activeNFTCalls)
+  }
 
   console.log('activenft', activeNFT)
+
   // Filter out the NFTs that aren't owned by the user account
   const userNFTs = activeNFT
     .map((pos, i) => {
@@ -309,6 +308,8 @@ export const findNFTByPool = async (address, program) => {
       amount0Max: MAX_UINT128,
       amount1Max: MAX_UINT128
     })
+
+    console.log('fees', fees)
 
     try {
       const [rewardNumber] = await stakingSingle.getRewardInfo(
