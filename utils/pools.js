@@ -3,7 +3,7 @@ import { commas } from '../utils/helpers'
 import { ethers, BigNumber } from 'ethers'
 import { Contract, Provider } from 'ethers-multicall'
 import { web3 } from '../utils/ethers'
-
+import { CHAIN_ID }  from '../utils/ethers'
 import univ3prices from '@thanpolas/univ3prices'
 
 // Find a matching incentive program.
@@ -170,6 +170,7 @@ export const findNFTByPool = async (address, program) => {
 
   // Get a list of NFTs in the user's wallet
   const nfts = await batcher.getIds(v3Positions.address, address)
+
   nfts.map((id) => nftList.push({ id: id.toNumber(), address }))
   // Get a list of NFTs in the staker
   const stakerNfts = await batcher.getIds(v3Positions.address, v3Staker.address)
@@ -178,9 +179,9 @@ export const findNFTByPool = async (address, program) => {
   )
 
   // Setup Multicall Provider
-  const ethcallProvider = new Provider(web3, 1)
+  const ethcallProvider = new Provider(web3, CHAIN_ID)
   // Multicall hates the v3Positions's ABI???????
-  const v3Manger = new Contract(v3Positions.address, [
+  const v3MangerABI = [
     {
       inputs: [{ internalType: 'uint256', name: 'tokenId', type: 'uint256' }],
       name: 'positions',
@@ -209,13 +210,37 @@ export const findNFTByPool = async (address, program) => {
       stateMutability: 'view',
       type: 'function'
     }
-  ])
-  // get all NFT Data data
-  const nftDataCalls = nftList.map((item) => v3Manger.positions(item.id))
-  const nftData = await ethcallProvider.all(nftDataCalls)
+  ]
 
-  // Filter out NFTs w/ no liquidity & unrelated to the pool we want
-  // Hacky index lookup to nftList to roll important data over
+  const v3Manger = new ethers.Contract(v3Positions.address, v3MangerABI, web3)
+  
+
+  // get all NFT Data data
+  console.log('before')
+  console.log(nftList)
+  let nftData = []
+
+  // loop through nftList array
+
+  for (var i = 0; i < nftList.length; i++) {
+    console.log(nftList[i])
+    nftData.push(await v3Manger.positions(nftList[i].id))
+  }
+  console.log('after')
+
+  // var poolNFTs = []
+  
+  // for (var i = 0; i < nftData.length; i++) {
+  //   let liquidity = nftData[i][7]
+  //   let token0 = nftData[i][2]
+  //   let token1 = nftData[i][3]
+  //   if (token0 == a && token1 == b && liquidity) > 0 {
+  //     poolNFTs.push(nftList[i])
+  //   }
+  // }
+
+  // // Filter out NFTs w/ no liquidity & unrelated to the pool we want
+  // // Hacky index lookup to nftList to roll important data over
   const poolNFTs = nftData
     .map((pos, i) => {
       if (pos.liquidity.toString() === 0) return false
@@ -225,11 +250,29 @@ export const findNFTByPool = async (address, program) => {
     })
     .filter((item) => item)
 
-  // Query the staker to get the owner of the NFTs
-  const staker = new Contract(v3Staker.address, v3Staker.abi)
-  const activeNFTCalls = poolNFTs.map((item) => staker.deposits(item.id))
-  const activeNFT = await ethcallProvider.all(activeNFTCalls)
 
+  console.log(poolNFTs)
+  // Query the staker to get the owner of the NFTs
+  const staker = new ethers.Contract(v3Staker.address, v3Staker.abi)
+
+  for (var i = 0; i < poolNFTs.length; i++) {
+    poolNFTs[i].owner = await staker.deposits(poolNFTs[i].id)
+  }
+
+  const activeNFTCalls = poolNFTs.map((item) => staker.deposits(item.id))
+
+  console.log (activeNFTCalls)
+
+  let activeNFT = []
+
+  // for (var i = 0; i < activeNFTCalls.length; i++) {
+  //   console.log(activeNFTCalls[i])
+  //   activeNFT.push(await v3Manger.positions(nftList[i].id))
+  // } 
+
+  // const activeNFT = await ethcallProvider.all(activeNFTCalls)
+
+  console.log(activeNFT)
   // Filter out the NFTs that aren't owned by the user account
   const userNFTs = activeNFT
     .map((pos, i) => {
@@ -297,12 +340,13 @@ export const findNFTByPool = async (address, program) => {
 
 // Fetches TVL of a XXX/ETH pool and returns prices
 export const getPoolData = async (pool, token) => {
-  const weth = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
+  const weth = '0xc778417E063141139Fce010982780140Aa0cD5Ab'
 
   const wethPrice = await getWETHPrice()
   const poolContract = new ethers.Contract(pool, v3Pool.abi, web3)
 
   const token0 = await poolContract.token0()
+  console.log('token0', token0)
   const data = await poolContract.slot0()
 
   const spacing = await poolContract.tickSpacing()
@@ -337,7 +381,7 @@ export const getPoolData = async (pool, token) => {
 }
 
 export const getWETHPrice = async () => {
-  const weth_usdc = '0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640'
+  const weth_usdc = '0xB1938D91e072bc31Bda2134865cB6b869aA82875'
   const poolContract = new ethers.Contract(weth_usdc, v3Pool.abi, web3)
   const data = await poolContract.slot0()
   const ratio = univ3prices([6, 18], data.sqrtPriceX96).toAuto() // [] token decimals

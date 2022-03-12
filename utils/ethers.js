@@ -3,12 +3,12 @@ import { ethers } from 'ethers'
 // let provider = new ethers.providers.JsonRpcProvider(atob(ETH_NODE))
 // export let web3 = new ethers.providers.getDefaultProvider()
 
-export const chainID = process.env.CHAIN_ID ? process.env.CHAIN_ID : 1
+export const chainID = process.env.CHAIN_ID ? process.env.CHAIN_ID : 4
 console.log('Chain ID: ', chainID)
 
 export let web3 = new ethers.providers.InfuraProvider(
   chainID === 1 ? 'homestead' : 'rinkeby',
-  process.env.INFURA
+  "4c62211c73c248ebb0b6df4c999e52d9"
 )
 
 const MaxUint = ethers.constants.MaxUint256
@@ -16,7 +16,7 @@ export const zeroAddress = ethers.constants.AddressZero
 
 export const registerProvider = (wallet) => {
   if (wallet) {
-    console.log('Using Wallet provider')
+    console.log('Using Wallet provider walletconnect')
     try {
       web3 = new ethers.providers.Web3Provider(wallet)
       wallet.on('chainChanged', (_chainId) => window.location.reload())
@@ -24,7 +24,7 @@ export const registerProvider = (wallet) => {
       console.log(error)
     }
   } else if (window && window.ethereum) {
-    console.log('Using Window provider')
+    console.log('Using Window provider metamask')
     web3 = new ethers.providers.Web3Provider(window.ethereum)
     window.ethereum.on('chainChanged', (_chainId) => window.location.reload())
   }

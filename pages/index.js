@@ -39,11 +39,11 @@ import { comma } from '../utils/helpers'
 
 // SWIV PROGRAM
 const IncentiveKey = [
-  '0x6123B0049F904d730dB3C36a31167D9d4121fA6B', // Token contract
-  '0x94981F69F7483AF3ae218CbfE65233cC3c60d93a', // Uniswap v3 token pool
-  1633694400,
-  1638878400,
-  '0xDAEada3d210D2f45874724BeEa03C7d4BBD41674' // Multisig Refund Address
+  '0x513d0A719A9EB5fEEC02C0433EBa179F2A7E245C', // Token contract
+  '0xB1938D91e072bc31Bda2134865cB6b869aA82875', // Uniswap v3 token pool
+  1647105630,
+  1647205617,
+  '0x3f60008Dfd0EfC03F476D9B489D6C5B13B3eBF2C' // Multisig Refund Address
 ]
 
 const programEmissions = 10000000
@@ -96,6 +96,8 @@ export default function Home() {
   useEffect(() => {
     const init = async () => {
       if (account) {
+        console.log('testprint')
+        console.log(account)
         const lpPositions = await findNFTByPool(account, IncentiveKey)
         setPositions(lpPositions)
       }
