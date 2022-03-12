@@ -30,7 +30,7 @@ export default function FAQs() {
             </AccordionButton>
           </h2>
           <AccordionPanel pb={4}>
-            <Text>{`Liquidity Providing (LP) is a new allows everyone to become a market maker. 
+            <Text>{`Liquidity Providing (LP) allows everyone to become a market maker. 
             It's unique to Automated Market Makers (AMMs) like Uniswap & Curve. When you LP you 
             are providing tokens to be used as a counter-party when someone wants to buy or sell a token. `}</Text>
             <br />
@@ -117,15 +117,15 @@ export default function FAQs() {
           <h2>
             <AccordionButton>
               <Box flex="1" textAlign="left" fontWeight="600">
-                I don't see my Uniswap LP position on the Uniswap website anymore. Why?
+                {`I don't see my Uniswap LP position on the Uniswap website anymore. Why?`}
               </Box>
               <AccordionIcon />
             </AccordionButton>
           </h2>
           <AccordionPanel pb={4}>
-            <Text>When you stake your NFT, your NFT will be temporarily held on the Staker contract. This gives it the ability to earn SWIV rewards for providing liquidity. When you Exit, the NFT will be returned back to your wallet.</Text>
+            <Text>{`When you stake your NFT, your NFT will be temporarily held on the Staker contract. This gives it the ability to earn SWIV rewards for providing liquidity. When you Exit, the NFT will be returned back to your wallet.`}</Text>
             <br/>
-            <Text>To see details of the position, click the 'Token ID' link on the left-hand side of the position.</Text>
+            <Text>{`To see details of the position, click the 'Token ID' link on the left-hand side of the position.`}</Text>
           </AccordionPanel>
         </AccordionItem>
         <AccordionItem>
@@ -138,7 +138,7 @@ export default function FAQs() {
             </AccordionButton>
           </h2>
           <AccordionPanel pb={4}>
-            <Text>{`No, this is website is unaffiliated with Swivel or any token project. It was created to help people navigate the somewhat confusing Uniswap V3 Staker design. It is provided for your enjoyment and without any warranties. Be safe and double check your TXs before you send them.`}</Text>
+            <Text>{`No, this website is unaffiliated with Swivel or any token project. It was created to help people navigate the somewhat confusing Uniswap V3 Staker design. It is provided for your enjoyment and without any warranties. Be safe and double check your TXs before you send them.`}</Text>
             <br />
             <Text>{`If you'd like to check the source code or host your own site, please check out the Github link in the bottom right. `}</Text>
           </AccordionPanel>

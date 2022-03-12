@@ -23,7 +23,7 @@ export default function WalletModal() {
 
   useEffect(() => {
     if (account) onClose()
-  }, [account])
+  }, [account, onClose])
 
   return (
     <>

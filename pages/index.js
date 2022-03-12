@@ -93,18 +93,21 @@ export default function Home() {
     return upper > tick && tick > lower
   }
 
-  useEffect(async () => {
-    if (account) {
-      const lpPositions = await findNFTByPool(account, IncentiveKey)
-      setPositions(lpPositions)
+  useEffect(() => {
+    const init = async () => {
+      if (account) {
+        const lpPositions = await findNFTByPool(account, IncentiveKey)
+        setPositions(lpPositions)
+      }
+      /// Calculate APY
+      const data = await getPoolData(IncentiveKey[1], IncentiveKey[0])
+      const emissionsPerSecond =
+        programEmissions / (IncentiveKey[3] - IncentiveKey[2])
+      const apy =
+        ((emissionsPerSecond * data.token * secondsInAYear) / data.tvl) * 100
+      setPool({ ...data, apy })
     }
-    /// Calculate APY
-    const data = await getPoolData(IncentiveKey[1], IncentiveKey[0])
-    const emissionsPerSecond =
-      programEmissions / (IncentiveKey[3] - IncentiveKey[2])
-    const apy =
-      ((emissionsPerSecond * data.token * secondsInAYear) / data.tvl) * 100
-    setPool({ ...data, apy })
+    init();
   }, [account, block])
 
   return (
