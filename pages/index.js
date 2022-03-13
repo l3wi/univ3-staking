@@ -80,7 +80,7 @@ export default function Home() {
   }
 
   const claim = async (id, reward) => {
-    const tx = await claimReward(id, account, reward, IncentiveKey)
+    const tx = await claimReward(id, account, '0', IncentiveKey)
     watchTx(tx.hash, 'Claiming rewards')
   }
 
@@ -290,7 +290,7 @@ export default function Home() {
                               <Button
                                 colorScheme="gray"
                                 onClick={() =>
-                                  exit(position.id, position.reward)
+                                  exit(position.id)
                                 }
                               >
                                 Exit
