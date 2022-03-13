@@ -3,7 +3,8 @@ import { ethers } from 'ethers'
 // let provider = new ethers.providers.JsonRpcProvider(atob(ETH_NODE))
 // export let web3 = new ethers.providers.getDefaultProvider()
 export const chainID = parseInt(process.env.NEXT_PUBLIC_CHAIN_ID) ? parseInt(process.env.NEXT_PUBLIC_CHAIN_ID) : 1
-
+console.log('chainID', chainID)
+console.log('direct chainID', process.env.NEXT_PUBLIC_CHAIN_ID)
 export let web3 = new ethers.providers.InfuraProvider(
   chainID === 1 ? 'homestead' : 'rinkeby',
   process.env.INFURA
