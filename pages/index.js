@@ -42,6 +42,8 @@ import { INCENTIVE_KEY } from '../constants/index.js';
 // SWIV PROGRAM
 const IncentiveKey = INCENTIVE_KEY
 
+console.log(IncentiveKey)
+
 const programEmissions = 10000000
 const secondsInAYear = 31540000
 
