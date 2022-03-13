@@ -37,14 +37,14 @@ import {
 
 import { comma } from '../utils/helpers'
 
-import { INCENTIVE_KEY } from '../constants/index.js';
+import { INCENTIVE_KEY, PROGRAM_AMOUNT } from '../constants/index.js';
 
 // SWIV PROGRAM
 const IncentiveKey = INCENTIVE_KEY
 
 console.log(IncentiveKey)
 
-const programEmissions = 10000000
+const programEmissions = PROGRAM_AMOUNT
 const secondsInAYear = 31540000
 
 export default function Home() {
