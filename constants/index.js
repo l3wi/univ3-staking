@@ -45,4 +45,4 @@ export const NFTBATCHER = process.env.NEXT_PUBLIC_NFTBATCHER
 
 export const WETH = process.env.NEXT_PUBLIC_WETH
 
-export const PROGRAM_AMOUNT = process.env.NEXT_PUBLIC_PROGRAM_AMOUNT
+export const PROGRAM_AMOUNT = parseInt(process.env.NEXT_PUBLIC_PROGRAM_AMOUNT)
