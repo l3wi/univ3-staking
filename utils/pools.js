@@ -3,6 +3,8 @@ import { BigNumber, ethers } from 'ethers';
 import { BATCHER, ERC20, v3Pool, v3Positions, v3Staker } from '../contracts';
 import { web3 } from '../utils/ethers';
 
+import { WETH, ETH_USDC_POOL } from '../constants'
+
 // Find a matching incentive program.
 // export const findIncentiveProgram = async (address) => {
 //   const staking = new ethers.Contract(v3Staker.address, v3Staker.abi, web3)
@@ -121,7 +123,6 @@ export const claimReward = async (tokenId, address, amount, program) => {
 
 // Unstake, Claim & Exit
 export const exitPool = async (tokenId, address, amount, program) => {
-  console.log(amount);
 
   let iface = new ethers.utils.Interface(v3Staker.abi);
   const unstakeData = iface.encodeFunctionData('unstakeToken', [
@@ -234,8 +235,6 @@ export const findNFTByPool = async (address, program) => {
       amount1Max: MAX_UINT128
     });
 
-    console.log('fees', fees);
-
     try {
       const [rewardNumber] = await staker.getRewardInfo(
         program,
@@ -266,7 +265,7 @@ export const findNFTByPool = async (address, program) => {
 
 // Fetches TVL of a XXX/ETH pool and returns prices
 export const getPoolData = async (pool, token) => {
-  const weth = '0xc778417E063141139Fce010982780140Aa0cD5Ab';
+  const weth = WETH;
 
   const wethPrice = await getWETHPrice();
   const poolContract = new ethers.Contract(pool, v3Pool.abi, web3);
@@ -307,7 +306,7 @@ export const getPoolData = async (pool, token) => {
 };
 
 export const getWETHPrice = async () => {
-  const weth_usdc = '0xB1938D91e072bc31Bda2134865cB6b869aA82875';
+  const weth_usdc = ETH_USDC_POOL;
   const poolContract = new ethers.Contract(weth_usdc, v3Pool.abi, web3);
   const data = await poolContract.slot0();
   const ratio = univ3prices([6, 18], data.sqrtPriceX96).toAuto(); // [] token decimals

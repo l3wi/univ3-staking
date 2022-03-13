@@ -37,14 +37,10 @@ import {
 
 import { comma } from '../utils/helpers'
 
+import { INCENTIVE_KEY } from '../constants/index.js';
+
 // SWIV PROGRAM
-const IncentiveKey = [
-  '0x513d0A719A9EB5fEEC02C0433EBa179F2A7E245C', // Token contract
-  '0xB1938D91e072bc31Bda2134865cB6b869aA82875', // Uniswap v3 token pool
-  1647115515,
-  1647205617,
-  '0x3f60008Dfd0EfC03F476D9B489D6C5B13B3eBF2C' // Multisig Refund Address
-]
+const IncentiveKey = INCENTIVE_KEY
 
 const programEmissions = 10000000
 const secondsInAYear = 31540000
@@ -80,7 +76,7 @@ export default function Home() {
   }
 
   const claim = async (id, reward) => {
-    const tx = await claimReward(id, account, '0', IncentiveKey)
+    const tx = await claimReward(id, account, reward, IncentiveKey)
     watchTx(tx.hash, 'Claiming rewards')
   }
 
@@ -97,7 +93,6 @@ export default function Home() {
     const init = async () => {
       if (account) {
         console.log('testprint')
-        console.log(account)
         const lpPositions = await findNFTByPool(account, IncentiveKey)
         setPositions(lpPositions)
       }
@@ -290,7 +285,7 @@ export default function Home() {
                               <Button
                                 colorScheme="gray"
                                 onClick={() =>
-                                  exit(position.id)
+                                  exit(position.id, position.reward)
                                 }
                               >
                                 Exit
