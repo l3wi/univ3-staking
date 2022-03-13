@@ -6,7 +6,7 @@ export const chainID = parseInt(process.env.NEXT_PUBLIC_CHAIN_ID) ? parseInt(pro
 
 export let web3 = new ethers.providers.InfuraProvider(
   chainID === 1 ? 'homestead' : 'rinkeby',
-  process.env.NEXT_PUBLIC_INFURA
+  process.env.INFURA
 )
 
 const MaxUint = ethers.constants.MaxUint256
