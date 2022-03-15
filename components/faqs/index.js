@@ -13,6 +13,10 @@ import {
   Link
 } from '@chakra-ui/react'
 
+import { INCENTIVE_KEY } from '../../constants'
+
+const IncentiveKey = INCENTIVE_KEY;
+
 export default function FAQs() {
   return (
     <>
@@ -20,6 +24,35 @@ export default function FAQs() {
         Frequently Asked Questions
       </Heading>
       <Accordion w="full" allowToggle>
+      <AccordionItem>
+          <h2>
+            <AccordionButton>
+              <Box flex="1" textAlign="left" fontWeight="600">
+                How do I stake my SWIV tokens?
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+          </h2>
+          <AccordionPanel pb={4}>
+            <Text>{`In order to participate in the rewards program you must provide liquidity to a specific pool and then stake it in the staking contract. `}</Text>
+            <br />
+            <Text>{`The steps are as follows:`}</Text>
+            <OrderedList>
+              <ListItem>
+                {`Go to the  `}
+                <Link
+                  href={`https://app.uniswap.org/#/add/ETH/${IncentiveKey[0]}/10000`}
+                  isExternal
+                >{`Uniswap v3 "Add Liquidity" page for SWIV & USDC.`}</Link>
+              </ListItem>
+              <ListItem>{`Select a range for your liquidity and supply the tokens.`}</ListItem>
+              <ListItem>{`Click "Connect Wallet" and choose a wallet provider.`}</ListItem>
+              <ListItem>{`Your LP NFTs will populate in the UI, select "Deposit" to transfer it ot the staking contract`}</ListItem>
+              <ListItem>{`Once the token is transfered, you must select "Stake" to start earning rewards.`}</ListItem>
+            </OrderedList>
+          </AccordionPanel>
+        </AccordionItem>
+
         <AccordionItem>
           <h2>
             <AccordionButton>
@@ -57,35 +90,6 @@ export default function FAQs() {
             <Text fontSize="sm">
               <i>{`Note: you can provide liquidity multiple times (accross different ranges) then stake those NFTs in the staker.`}</i>
             </Text>
-          </AccordionPanel>
-        </AccordionItem>
-
-        <AccordionItem>
-          <h2>
-            <AccordionButton>
-              <Box flex="1" textAlign="left" fontWeight="600">
-                How do I stake my SWIV tokens?
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-          </h2>
-          <AccordionPanel pb={4}>
-            <Text>{`In order to participate in the rewards program you must provide liquidity to a specific pool and then stake it in the staking contract. `}</Text>
-            <br />
-            <Text>{`The steps are as follows:`}</Text>
-            <OrderedList>
-              <ListItem>
-                {`Go to the  `}
-                <Link
-                  href="https://app.uniswap.org/#/add/ETH/0x6123B0049F904d730dB3C36a31167D9d4121fA6B/10000"
-                  isExternal
-                >{`Uniswap v3 "Add Liquidity" page for SWIV & ETH.`}</Link>
-              </ListItem>
-              <ListItem>{`Select a range for your liquidity and supply the tokens.`}</ListItem>
-              <ListItem>{`Click "Connect Wallet" and choose a wallet provider.`}</ListItem>
-              <ListItem>{`Your LP NFTs will populate in the UI, select "Deposit" to transfer it ot the staking contract`}</ListItem>
-              <ListItem>{`Once the token is transfered, you must select "Stake" to start earning rewards.`}</ListItem>
-            </OrderedList>
           </AccordionPanel>
         </AccordionItem>
 
@@ -141,6 +145,31 @@ export default function FAQs() {
             <Text>{`No, this website is unaffiliated with Swivel or any token project. It was created to help people navigate the somewhat confusing Uniswap V3 Staker design. It is provided for your enjoyment and without any warranties. Be safe and double check your TXs before you send them.`}</Text>
             <br />
             <Text>{`If you'd like to check the source code or host your own site, please check out the Github link in the bottom right. `}</Text>
+          </AccordionPanel>
+        </AccordionItem>
+        <AccordionItem>
+          <h2>
+            <AccordionButton>
+              <Box flex="1" textAlign="left" fontWeight="600">
+                Which pool should I provide liquidity to?
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+          </h2>
+          <AccordionPanel pb={4}>
+            <Text>{`These liquidity incentives are for liquidity provided to the SWIV/USDC 1% pool.`}</Text>
+            <br />
+            <Text>{`You can provide liquidity to the pool using the link below.`}</Text>
+            <br />
+            <Text>
+                  {`Deposit `}
+                  <Link
+                    isExternal
+                    href={`https://app.uniswap.org/#/add/ETH/${IncentiveKey[0]}/10000`}
+                  >
+                    <b>{`SWIV & USDC here`}</b>
+                  </Link>
+            </Text>
           </AccordionPanel>
         </AccordionItem>
       </Accordion>

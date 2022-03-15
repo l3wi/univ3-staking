@@ -12,7 +12,8 @@ import {
   Td,
   Button,
   Image,
-  Badge
+  Badge,
+  ExternalLinkIcon
 } from '@chakra-ui/react'
 import { Box, Heading, Text, Center, Link } from '@chakra-ui/layout'
 import { useColorModeValue } from '@chakra-ui/color-mode'
@@ -312,7 +313,7 @@ export default function Home() {
                     isExternal
                     href={`https://app.uniswap.org/#/add/ETH/${IncentiveKey[0]}/10000`}
                   >
-                    <b>{`${pool.symbol ? pool.symbol : '???'} & ETH here`}</b>
+                    <b>{`${pool.symbol ? pool.symbol : '???'} & USDC here`}</b>
                   </Link>
                   {` to get started`}{' '}
                 </Text>
