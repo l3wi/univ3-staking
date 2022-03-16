@@ -92,7 +92,29 @@ export default function FAQs() {
             </Text>
           </AccordionPanel>
         </AccordionItem>
-
+        <AccordionItem>
+          <h2>
+            <AccordionButton>
+              <Box flex="1" textAlign="left" fontWeight="600">
+                Which pool should I provide liquidity to?
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+          </h2>
+          <AccordionPanel pb={4}>
+            <Text>{`These liquidity incentives are for liquidity provided to the SWIV/USDC 1% pool.`}</Text>
+            <br />
+            <Text>
+                  {`Deposit `}
+                  <Link
+                    isExternal
+                    href={`https://app.uniswap.org/#/add/ETH/${IncentiveKey[0]}/10000`}
+                  >
+                    <b>{`SWIV & USDC here`}</b>
+                  </Link>
+            </Text>
+          </AccordionPanel>
+        </AccordionItem>
         <AccordionItem>
           <h2>
             <AccordionButton>
@@ -145,31 +167,6 @@ export default function FAQs() {
             <Text>{`No, this website is unaffiliated with Swivel or any token project. It was created to help people navigate the somewhat confusing Uniswap V3 Staker design. It is provided for your enjoyment and without any warranties. Be safe and double check your TXs before you send them.`}</Text>
             <br />
             <Text>{`If you'd like to check the source code or host your own site, please check out the Github link in the bottom right. `}</Text>
-          </AccordionPanel>
-        </AccordionItem>
-        <AccordionItem>
-          <h2>
-            <AccordionButton>
-              <Box flex="1" textAlign="left" fontWeight="600">
-                Which pool should I provide liquidity to?
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-          </h2>
-          <AccordionPanel pb={4}>
-            <Text>{`These liquidity incentives are for liquidity provided to the SWIV/USDC 1% pool.`}</Text>
-            <br />
-            <Text>{`You can provide liquidity to the pool using the link below.`}</Text>
-            <br />
-            <Text>
-                  {`Deposit `}
-                  <Link
-                    isExternal
-                    href={`https://app.uniswap.org/#/add/ETH/${IncentiveKey[0]}/10000`}
-                  >
-                    <b>{`SWIV & USDC here`}</b>
-                  </Link>
-            </Text>
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
