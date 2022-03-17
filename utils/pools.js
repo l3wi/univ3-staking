@@ -273,18 +273,12 @@ export const getPoolData = async (pool, token) => {
     6
   );
 
-  console.log('usdc balance', wethBalance);
-  console.log('usdc price', wethPrice);
-
   const tokenContract = new ethers.Contract(token, ERC20.abi, web3);
   const symbol = await tokenContract.symbol();
   const tokenBalance = ethers.utils.formatUnits(
     await tokenContract.balanceOf(pool),
     18
   );
-
-  console.log('token balance', tokenBalance);
-  console.log('token price', tokenPrice);
 
   const tvl = tokenBalance * tokenPrice + wethPrice * wethBalance;
   return {
