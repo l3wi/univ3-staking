@@ -3,7 +3,7 @@ import { BigNumber, ethers } from 'ethers';
 import { BATCHER, ERC20, v3Pool, v3Positions, v3Staker } from '../contracts';
 import { web3 } from '../utils/ethers';
 
-import { WETH, ETH_USDC_POOL } from '../constants'
+import { PAIRED_TOKEN, ETH_USDC_POOL } from '../constants'
 
 // Find a matching incentive program.
 // export const findIncentiveProgram = async (address) => {
@@ -144,15 +144,12 @@ export const exitPool = async (tokenId, address, amount, program) => {
   const staking = new ethers.Contract(v3Staker.address, v3Staker.abi, signer);
 
   // Estimate & Bump gasLimit by 1.2x
-  console.log('before gas estimate');
   const gas = await staking.estimateGas.multicall([unstakeData, claimData, withdrawData]);
   const gasLimit = Math.ceil(gas.toNumber() * 1.2);
-  console.log('after gas estimate');
 
   const tx = await staking.multicall([unstakeData, claimData, withdrawData], {
     gasLimit
   });
-  console.log('after multicall');
   return tx;
 };
 
@@ -184,8 +181,6 @@ export const findNFTByPool = async (address, program) => {
   // get all NFT Data data
   const nftData = await Promise.all(nftList.map(nft => manager.positions(nft.id)));
 
-  console.log('nftData: ', nftData);
-
   // Filter out NFTs w/ no liquidity & unrelated to the pool we want
   // Hacky index lookup to nftList to roll important data over
   const poolNFTs = nftData
@@ -197,12 +192,8 @@ export const findNFTByPool = async (address, program) => {
     })
     .filter((item) => item)
 
-  console.log('poolNFTs: ', poolNFTs);
-
   // Query the staker to get the owner of the NFTs
   const activeNFTs = await Promise.all(poolNFTs.map(nft => staker.deposits(nft.id)));
-
-  console.log('activeNFTs', activeNFTs);
 
   // Filter out the NFTs that aren't owned by the user account
   const userNFTs = activeNFTs
@@ -216,8 +207,6 @@ export const findNFTByPool = async (address, program) => {
       };
     })
     .filter((item) => item);
-
-  console.log('userNFTs', userNFTs);
 
   /// Finally check to see if the token has rewarded, ie staked
   const fetchOne = async (token) => {
@@ -264,18 +253,17 @@ export const findNFTByPool = async (address, program) => {
 
 // Fetches TVL of a XXX/ETH pool and returns prices
 export const getPoolData = async (pool, token) => {
-  const weth = WETH;
+  const weth = PAIRED_TOKEN;
 
   const wethPrice = await getWETHPrice();
   const poolContract = new ethers.Contract(pool, v3Pool.abi, web3);
 
   const token0 = await poolContract.token0();
-  console.log('token0', token0);
   const data = await poolContract.slot0();
 
   const spacing = await poolContract.tickSpacing();
   const liquidity = await poolContract.liquidity();
-  const ratio = univ3prices([18, 18], data.sqrtPriceX96).toAuto();
+  const ratio = univ3prices([6, 18], data.sqrtPriceX96).toAuto();
 
   const tokenPrice = token0 === weth ? wethPrice * ratio : wethPrice / ratio;
 

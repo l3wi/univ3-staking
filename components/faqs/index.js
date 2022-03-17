@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react'
 
 import { INCENTIVE_KEY } from '../../constants'
-import { WETH } from '../../constants'
+import { PAIRED_TOKEN } from '../../constants'
 
 const IncentiveKey = INCENTIVE_KEY;
 
@@ -133,7 +133,7 @@ export default function FAQs() {
                   {`Deposit `}
                   <Link
                     isExternal
-                    href={`https://app.uniswap.org/#/add/${WETH}/${IncentiveKey[0]}/10000`}
+                    href={`https://app.uniswap.org/#/add/${PAIRED_TOKEN}/${IncentiveKey[0]}/10000`}
                   >
                     <b>{`SWIV & USDC here`}</b>
                   </Link>
