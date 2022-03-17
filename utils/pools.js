@@ -263,15 +263,18 @@ export const getPoolData = async (pool, token) => {
 
   const spacing = await poolContract.tickSpacing();
   const liquidity = await poolContract.liquidity();
-  const ratio = univ3prices([6, 18], data.sqrtPriceX96).toAuto();
+  const ratio = univ3prices([18, 18], data.sqrtPriceX96).toAuto();
 
   const tokenPrice = token0 === weth ? wethPrice * ratio : wethPrice / ratio;
 
   const wethContract = new ethers.Contract(weth, ERC20.abi, web3);
   const wethBalance = ethers.utils.formatUnits(
     await wethContract.balanceOf(pool),
-    18
+    6
   );
+
+  console.log('usdc balance', wethBalance);
+  console.log('usdc price', wethPrice);
 
   const tokenContract = new ethers.Contract(token, ERC20.abi, web3);
   const symbol = await tokenContract.symbol();
@@ -279,6 +282,9 @@ export const getPoolData = async (pool, token) => {
     await tokenContract.balanceOf(pool),
     18
   );
+
+  console.log('token balance', tokenBalance);
+  console.log('token price', tokenPrice);
 
   const tvl = tokenBalance * tokenPrice + wethPrice * wethBalance;
   return {
@@ -296,6 +302,6 @@ export const getWETHPrice = async () => {
   const weth_usdc = ETH_USDC_POOL;
   const poolContract = new ethers.Contract(weth_usdc, v3Pool.abi, web3);
   const data = await poolContract.slot0();
-  const ratio = univ3prices([6, 18], data.sqrtPriceX96).toAuto(); // [] token decimals
+  const ratio = univ3prices([6, 6], data.sqrtPriceX96).toAuto(); // [] token decimals
   return ratio;
 };

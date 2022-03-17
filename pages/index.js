@@ -36,8 +36,6 @@ import {
   getPoolData
 } from '../utils/pools'
 
-import { comma } from '../utils/helpers'
-
 import { INCENTIVE_KEY, PROGRAM_AMOUNT, PAIRED_TOKEN } from '../constants/index.js';
 
 // SWIV PROGRAM
