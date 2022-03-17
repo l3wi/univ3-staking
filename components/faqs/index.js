@@ -13,8 +13,7 @@ import {
   Link
 } from '@chakra-ui/react'
 
-import { INCENTIVE_KEY } from '../../constants'
-import { PAIRED_TOKEN } from '../../constants'
+import { INCENTIVE_KEY, PAIRED_TOKEN } from '../../constants'
 
 const IncentiveKey = INCENTIVE_KEY;
 
