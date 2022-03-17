@@ -38,12 +38,10 @@ import {
 
 import { comma } from '../utils/helpers'
 
-import { INCENTIVE_KEY, PROGRAM_AMOUNT, WETH } from '../constants/index.js';
+import { INCENTIVE_KEY, PROGRAM_AMOUNT, PAIRED_TOKEN } from '../constants/index.js';
 
 // SWIV PROGRAM
 const IncentiveKey = INCENTIVE_KEY
-
-console.log(IncentiveKey)
 
 const programEmissions = PROGRAM_AMOUNT
 const secondsInAYear = 31540000
@@ -95,9 +93,7 @@ export default function Home() {
   useEffect(() => {
     const init = async () => {
       if (account) {
-        console.log('testprint')
         const lpPositions = await findNFTByPool(account, IncentiveKey)
-        console.log('positions', lpPositions)
         setPositions(lpPositions)
       }
       /// Calculate APY
@@ -312,7 +308,7 @@ export default function Home() {
                   {`Deposit `}
                   <Link
                     isExternal
-                    href={`https://app.uniswap.org/#/add/${WETH}/${IncentiveKey[0]}/10000`}
+                    href={`https://app.uniswap.org/#/add/${PAIRED_TOKEN}/${IncentiveKey[0]}/10000`}
                   >
                     <b>{`${pool.symbol ? pool.symbol : '???'} & USDC here`}</b>
                   </Link>
