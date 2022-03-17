@@ -134,7 +134,6 @@ export const exitPool = async (tokenId, address, amount, program) => {
     address,
     amount
   ]);
-
   const withdrawData = iface.encodeFunctionData('withdrawToken', [
     tokenId,
     address,
@@ -252,7 +251,7 @@ export const findNFTByPool = async (address, program) => {
       liquidity: token.position.liquidity.toString(),
       tickLower: token.position.tickLower,
       tickUpper: token.position.tickUpper,
-      fees0: ethers.utils.formatUnits(fees.amount0),
+      fees0: (ethers.utils.formatUnits(fees.amount0) * 1e12).toString(),
       fees1: ethers.utils.formatUnits(fees.amount1)
     };
   };

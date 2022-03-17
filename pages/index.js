@@ -38,7 +38,7 @@ import {
 
 import { comma } from '../utils/helpers'
 
-import { INCENTIVE_KEY, PROGRAM_AMOUNT } from '../constants/index.js';
+import { INCENTIVE_KEY, PROGRAM_AMOUNT, WETH } from '../constants/index.js';
 
 // SWIV PROGRAM
 const IncentiveKey = INCENTIVE_KEY
@@ -97,6 +97,7 @@ export default function Home() {
       if (account) {
         console.log('testprint')
         const lpPositions = await findNFTByPool(account, IncentiveKey)
+        console.log('positions', lpPositions)
         setPositions(lpPositions)
       }
       /// Calculate APY
@@ -111,7 +112,7 @@ export default function Home() {
   }, [account, block])
 
   return (
-    <Page title={pool.symbol ? pool.symbol + '/ETH' : false}>
+    <Page title={pool.symbol ? pool.symbol + '/USDC' : false}>
       <Center>
         <Flex
           flexDirection="column"
@@ -155,7 +156,7 @@ export default function Home() {
           </Flex>
 
           <Heading size="md" mb="5">
-            {`Your ${pool.symbol ? pool.symbol : '???'}/ETH positions`}
+            {`Your ${pool.symbol ? pool.symbol : '???'}/USDC positions`}
           </Heading>
           <Box
             shadow="xl"
@@ -235,10 +236,10 @@ export default function Home() {
                       </Td>
                       <Td fontSize="sm" w="fit-content">
                         <Box>
-                          {commas(position.fees0)} <b>{pool.symbol}</b>
+                          {commas(position.fees0)} <b>USDC</b>
                         </Box>
                         <Box>
-                          {commas(position.fees1)} <b>WETH</b>
+                          {commas(position.fees1)} <b>{pool.symbol}</b>
                         </Box>
                       </Td>
 
@@ -311,7 +312,7 @@ export default function Home() {
                   {`Deposit `}
                   <Link
                     isExternal
-                    href={`https://app.uniswap.org/#/add/ETH/${IncentiveKey[0]}/10000`}
+                    href={`https://app.uniswap.org/#/add/${WETH}/${IncentiveKey[0]}/10000`}
                   >
                     <b>{`${pool.symbol ? pool.symbol : '???'} & USDC here`}</b>
                   </Link>

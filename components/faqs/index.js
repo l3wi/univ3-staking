@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react'
 
 import { INCENTIVE_KEY } from '../../constants'
+import { WETH } from '../../constants'
 
 const IncentiveKey = INCENTIVE_KEY;
 
@@ -96,29 +97,6 @@ export default function FAQs() {
           <h2>
             <AccordionButton>
               <Box flex="1" textAlign="left" fontWeight="600">
-                Which pool should I provide liquidity to?
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-          </h2>
-          <AccordionPanel pb={4}>
-            <Text>{`These liquidity incentives are for liquidity provided to the SWIV/USDC 1% pool.`}</Text>
-            <br />
-            <Text>
-                  {`Deposit `}
-                  <Link
-                    isExternal
-                    href={`https://app.uniswap.org/#/add/ETH/${IncentiveKey[0]}/10000`}
-                  >
-                    <b>{`SWIV & USDC here`}</b>
-                  </Link>
-            </Text>
-          </AccordionPanel>
-        </AccordionItem>
-        <AccordionItem>
-          <h2>
-            <AccordionButton>
-              <Box flex="1" textAlign="left" fontWeight="600">
                 How do I claim my rewards?
               </Box>
               <AccordionIcon />
@@ -137,6 +115,29 @@ export default function FAQs() {
                 {`When you click "Exit" you are withdrawing your accrued rewards and your NFT to your wallet. You will no longer accrue rewards, but you now can adjust your liquidity or withdraw your liquidity.`}{' '}
               </ListItem>
             </UnorderedList>
+          </AccordionPanel>
+        </AccordionItem>
+        <AccordionItem>
+          <h2>
+            <AccordionButton>
+              <Box flex="1" textAlign="left" fontWeight="600">
+                Which pool should I provide liquidity to?
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+          </h2>
+          <AccordionPanel pb={4}>
+            <Text>{`These liquidity incentives are for liquidity provided to the SWIV/USDC 1% pool.`}</Text>
+            <br />
+            <Text>
+                  {`Deposit `}
+                  <Link
+                    isExternal
+                    href={`https://app.uniswap.org/#/add/${WETH}/${IncentiveKey[0]}/10000`}
+                  >
+                    <b>{`SWIV & USDC here`}</b>
+                  </Link>
+            </Text>
           </AccordionPanel>
         </AccordionItem>
         <AccordionItem>
