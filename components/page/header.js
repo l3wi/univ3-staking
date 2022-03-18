@@ -34,7 +34,7 @@ const Header = () => {
               Swivel LP Staking
             </Heading>
             <Text fontSize="lg" color="gray.500">
-              Stake your SWIV/ETH LP position
+              Stake your SWIV/USDC LP position
             </Text>
           </Box>
         </Flex>
