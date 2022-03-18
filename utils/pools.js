@@ -260,13 +260,13 @@ export const getPoolData = async (pool, token) => {
 
   const token0 = await poolContract.token0();
   const data = await poolContract.slot0();
-
+  console.log(token0)
   const spacing = await poolContract.tickSpacing();
   const liquidity = await poolContract.liquidity();
   const ratio = univ3prices([6, 18], data.sqrtPriceX96).toAuto();
-
-  const tokenPrice = token0 === weth ? wethPrice * ratio : wethPrice / ratio;
-
+  console.log('ratio', ratio)
+  const tokenPrice = wethPrice / ratio
+  console.log('tokenPrice', tokenPrice);
   const wethContract = new ethers.Contract(weth, ERC20.abi, web3);
   const wethBalance = ethers.utils.formatUnits(
     await wethContract.balanceOf(pool),
