@@ -263,7 +263,7 @@ export const getPoolData = async (pool, token) => {
 
   const spacing = await poolContract.tickSpacing();
   const liquidity = await poolContract.liquidity();
-  const ratio = univ3prices([18, 18], data.sqrtPriceX96).toAuto();
+  const ratio = univ3prices([6, 18], data.sqrtPriceX96).toAuto();
 
   const tokenPrice = token0 === weth ? wethPrice * ratio : wethPrice / ratio;
 
