@@ -265,7 +265,7 @@ export const getPoolData = async (pool, token) => {
   const liquidity = await poolContract.liquidity();
   const ratio = univ3prices([6, 18], data.sqrtPriceX96).toAuto();
   console.log('ratio', ratio)
-  const tokenPrice = wethPrice / ratio
+  const tokenPrice = token0 === weth ? wethPrice * ratio : wethPrice / ratio;
   console.log('tokenPrice', tokenPrice);
   const wethContract = new ethers.Contract(weth, ERC20.abi, web3);
   const wethBalance = ethers.utils.formatUnits(
