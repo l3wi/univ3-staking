@@ -31,10 +31,10 @@ const Header = () => {
           <Ribbon w={64} h={64} />
           <Box ml="2">
             <Heading size="lg" mb={2}>
-              Swivel LP Staking
+              Swivel LP Staking (April)
             </Heading>
             <Text fontSize="lg" color="gray.500">
-              Stake your SWIV/USDC LP position
+              Stake your SWIV/USDC LP position until April 18th
             </Text>
           </Box>
         </Flex>
