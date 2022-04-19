@@ -41,4 +41,10 @@
 			{
 				"internalType": "string[]",
 				"name": "",
-				"type": "stri
+				"type": "string[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
